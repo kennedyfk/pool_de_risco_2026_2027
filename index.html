@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pool de Risco 2026-2027 — Interativo</title>
+  <meta name="description"
+    content="Tabela interativa das operadoras de saúde suplementar no Pool de Risco ANS 2026-2027 com filtros e ordenação dinâmica.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --color-brand: #2A6B6E;
+      --color-brand-dark: #15323b;
+      --color-brand-light: rgba(42, 107, 110, 0.08);
+      --color-text: #1a1a1a;
+      --color-muted: #5a6a72;
+      --color-faint: #8a9aa1;
+      --color-border: #ececec;
+      --color-stripe: #f6f7f7;
+      --color-bg: #ffffff;
+      --color-surface: #f9fafa;
+      --color-mod-mg: #2E5C8A;
+      --color-mod-cm: #3F8A56;
+      --color-mod-seg: #C68A3A;
+      --color-mod-fil: #B5424A;
+      --color-pool-low: #2E8B57;
+      --color-pool-mid: #E0962E;
+      --color-pool-high: #C0392B;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 2px 6px rgba(0, 0, 0, .04);
+    }
+
+    html.theme-dark {
+      --color-brand: #5CC1C6;
+      --color-brand-dark: #F0F4F5;
+      --color-brand-light: rgba(92, 193, 198, 0.12);
+      --color-text: #E4E7E8;
+      --color-muted: #A1AEB3;
+      --color-faint: #68767D;
+      --color-border: #2A3236;
+      --color-stripe: #1C2124;
+      --color-bg: #141719;
+      --color-surface: #101214;
+      --color-pool-low: #34C759;
+      --color-pool-mid: #F5A623;
+      --color-pool-high: #FF453A;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    html.theme-dark thead th {
+      background: #1a2024;
+      border-bottom: 2px solid var(--color-brand);
+      color: #fff;
+    }
+
+    html.theme-dark thead th:hover {
+      background: #232b30;
+    }
+
+    html.theme-dark .bar {
+      background: #2A3236;
+    }
+
+    html.theme-dark .pool-pct {
+      color: #fff;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      background: var(--color-surface);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+
+    /* ─── Cabeçalho ──────────────────────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, rgba(42, 107, 110, .06) 0%, rgba(42, 107, 110, 0) 60%), var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      padding: 2rem 3rem 1.5rem;
+      position: relative;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1.5rem;
+      right: 3rem;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      color: var(--color-text);
+      transition: all 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--color-brand-light);
+      border-color: var(--color-brand);
+      transform: translateY(-1px);
+    }
+
+    .tt-icon {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      font-size: 11px;
+      line-height: 1;
+      margin: 0 6px;
+      vertical-align: middle;
+      cursor: help;
+      font-weight: 700;
+      font-family: system-ui, sans-serif;
+      color: #fff;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    /* O Balão do Tooltip */
+    .tt-icon::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      transform: translateY(-4px);
+      background: var(--color-brand-dark);
+      color: #fff;
+      padding: .6rem .85rem;
+      border-radius: var(--radius-md);
+      font-size: .75rem;
+      font-weight: 500;
+      white-space: normal;
+      width: 220px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+      font-family: 'Inter', system-ui, sans-serif;
+      letter-spacing: normal;
+      text-transform: none;
+      line-height: 1.35;
+    }
+
+    /* A setinha do Tooltip */
+    .tt-icon::before {
+      content: "";
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      border-width: 6px;
+      border-style: solid;
+      border-color: transparent transparent var(--color-brand-dark) transparent;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 101;
+    }
+
+    .tt-icon:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .tt-icon:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .tt-icon:hover::before {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    html.theme-dark .tt-icon::after {
+      background: var(--color-brand);
+      color: var(--color-bg);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    html.theme-dark .tt-icon::before {
+      border-color: transparent transparent var(--color-brand) transparent;
+    }
+
+    .header__brand {
+      font-size: .7rem;
+      letter-spacing: .25rem;
+      color: var(--color-brand);
+      text-transform: uppercase;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: .75rem;
+    }
+
+    .header__title {
+      font-family: 'DM Serif Display', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.02;
+      color: var(--color-brand-dark);
+      text-align: center;
+      letter-spacing: -.03em;
+      margin-bottom: .5rem;
+    }
+
+    .header__subtitle {
+      text-align: center;
+      font-size: .95rem;
+      color: var(--color-muted);
+      margin-bottom: .4rem;
+    }
+
+    .header__author {
+      text-align: center;
+      font-size: .95rem;
+      color: var(--color-muted);
+      margin-bottom: 1.25rem;
+    }
+    
+    .header__author a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      vertical-align: text-bottom;
+      color: var(--color-brand);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .header__author a:hover {
+      color: var(--color-brand-dark);
+      text-decoration: underline;
+    }
+
+    /* ─── Legenda em duas linhas ─────────────────────────────── */
+    .meta-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      padding: .75rem 0;
+      font-size: .8rem;
+    }
+
+    .meta-bar__row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: .9rem 1.5rem;
+    }
+
+    .meta-bar__group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: .6rem 1.2rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-weight: 500;
+      color: #2c3a40;
+      cursor: pointer;
+      border-radius: 2rem;
+      padding: .3rem .75rem;
+      transition: background .2s, transform .15s;
+      border: 1.5px solid transparent;
+      user-select: none;
+      background: none;
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    .legend-item:hover {
+      background: var(--color-brand-light);
+      transform: translateY(-1px);
+    }
+
+    .legend-item.active {
+      background: var(--color-brand-light);
+      border-color: var(--color-brand);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .scale-item {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      color: var(--color-muted);
+    }
+
+    .scale-bar {
+      width: 22px;
+      height: 6px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    /* ─── Painel de Resumo (KPIs & Distribuição) ─────────────── */
+    .summary-panel {
+      margin: 1.5rem auto .5rem;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .kpi-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s;
+    }
+
+    html.theme-dark .kpi-card {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .kpi-label {
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--color-muted);
+      font-weight: 600;
+      margin-bottom: .5rem;
+    }
+
+    .kpi-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-brand-dark);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+
+    html.theme-dark .kpi-value {
+      color: #fff;
+    }
+
+    .dist-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      background: var(--color-surface);
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .dist-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: .7rem;
+      font-weight: 600;
+      color: var(--color-muted);
+      text-transform: uppercase;
+    }
+
+    .dist-labels b {
+      color: var(--color-text);
+      font-weight: 700;
+    }
+
+    .dist-bar {
+      height: 12px;
+      border-radius: 6px;
+      background: var(--color-border);
+      display: flex;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .dist-segment {
+      height: 100%;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dist-low {
+      background: var(--color-pool-low);
+    }
+
+    .dist-mid {
+      background: var(--color-pool-mid);
+    }
+
+    .dist-high {
+      background: var(--color-pool-high);
+    }
+
+    /* ─── Toolbar ────────────────────────────────────────────── */
+    .toolbar {
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      padding: 1rem 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: center;
+    }
+
+    .toolbar__search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 360px;
+    }
+
+    .toolbar__search-icon {
+      position: absolute;
+      left: .9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-faint);
+      pointer-events: none;
+      width: 16px;
+      height: 16px;
+    }
+
+    .toolbar__search {
+      width: 100%;
+      padding: .55rem 1rem .55rem 2.5rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      font-family: inherit;
+      font-size: .875rem;
+      color: var(--color-text);
+      background: var(--color-surface);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+
+    .toolbar__search:focus {
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px rgba(42, 107, 110, .12);
+      background: var(--color-bg);
+    }
+
+    .toolbar__select {
+      padding: .55rem 2.2rem .55rem .9rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      font-family: inherit;
+      font-size: .875rem;
+      color: var(--color-text);
+      background: var(--color-surface);
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9aa1' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right .8rem center;
+      transition: border-color .2s;
+    }
+
+    .toolbar__select:focus {
+      border-color: var(--color-brand);
+    }
+
+    .toolbar__btn {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .55rem 1rem;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      font-family: inherit;
+      font-size: .875rem;
+      color: var(--color-muted);
+      background: var(--color-surface);
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .toolbar__btn:hover {
+      border-color: var(--color-brand);
+      color: var(--color-brand);
+      background: var(--color-brand-light);
+    }
+
+    .toolbar__btn.active {
+      border-color: var(--color-brand);
+      color: var(--color-brand);
+      background: var(--color-brand-light);
+      font-weight: 600;
+    }
+
+    .toolbar__count {
+      margin-left: auto;
+      font-size: .8rem;
+      color: var(--color-faint);
+      white-space: nowrap;
+    }
+
+    .toolbar__count strong {
+      color: var(--color-brand);
+      font-weight: 700;
+    }
+
+    /* ─── Tabela ─────────────────────────────────────────────── */
+    .table-section {
+      padding: 1.5rem 3rem 1.5rem;
+    }
+
+    .table-wrap {
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    table {
+      width: 100%;
+      table-layout: auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: .84rem;
+    }
+
+    col.c-rank {
+      width: 44px;
+    }
+
+    col.c-op {
+      width: auto;
+      min-width: 160px;
+    }
+
+    col.c-mod {
+      width: 160px;
+    }
+
+    col.c-benef {
+      width: 150px;
+    }
+
+    col.c-pool25 {
+      width: 125px;
+    }
+
+    col.c-pool {
+      width: 300px;
+    }
+
+    col.c-acum {
+      width: 125px;
+    }
+
+    col.c-media {
+      width: 125px;
+    }
+
+    thead th {
+      background: var(--color-brand);
+      color: #fff;
+      font-weight: 600;
+      font-size: .77rem;
+      letter-spacing: .035em;
+      text-transform: uppercase;
+      padding: .9rem 1rem;
+      text-align: left;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+
+    thead th:hover {
+      background: #235d60;
+    }
+
+    thead th.num {
+      text-align: right;
+    }
+
+    thead th.center {
+      text-align: center;
+    }
+
+    .th-sort-icon {
+      display: inline-block;
+      margin-left: .35rem;
+      opacity: .5;
+      font-size: .7rem;
+      vertical-align: middle;
+      transition: opacity .15s, transform .2s;
+    }
+
+    thead th.sort-asc .th-sort-icon,
+    thead th.sort-desc .th-sort-icon {
+      opacity: 1;
+    }
+
+    thead th.sort-desc .th-sort-icon {
+      transform: rotate(180deg);
+    }
+
+    tbody tr {
+      transition: background .15s;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: var(--color-stripe);
+    }
+
+    tbody tr:hover td {
+      background: rgba(42, 107, 110, .05) !important;
+    }
+
+    tbody td {
+      padding: .5rem 1rem;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    td.rank {
+      color: var(--color-faint);
+      font-weight: 600;
+      text-align: center;
+      font-size: .77rem;
+    }
+
+    td.operadora {
+      font-weight: 600;
+      color: var(--color-brand-dark);
+    }
+
+    .op-wrap {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .op-logo {
+      width: auto;
+      height: 32px;
+      object-fit: contain;
+      flex-shrink: 0;
+      background: #fff;
+      border-radius: 5px;
+      padding: 2px;
+      border: 1px solid var(--color-border);
+    }
+
+    .op-name {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.3;
+    }
+
+    td.benef {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .25rem .65rem;
+      border-radius: 2rem;
+      font-size: .72rem;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .pool-wrap {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .pool-pct {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-brand-dark);
+      min-width: 52px;
+      font-size: .85rem;
+    }
+
+    .pool-pct.empty {
+      color: var(--color-faint);
+      font-weight: 400;
+    }
+
+    .bar {
+      flex: 1;
+      height: 7px;
+      background: #e6eaec;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width .4s ease;
+    }
+
+    .empty-state {
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--color-faint);
+    }
+
+    .empty-state__icon {
+      font-size: 2.5rem;
+      margin-bottom: .75rem;
+    }
+
+    /* ─── Footer CTA ─────────────────────────────────────────── */
+    .site-footer {
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-cta {
+      padding: 3rem 3rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .footer-cta p {
+      color: var(--color-text);
+      font-size: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: .6rem 1.5rem;
+      border-radius: 2rem;
+      background: var(--color-brand-light);
+      color: var(--color-brand);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .85rem;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .footer-links a:hover {
+      background: var(--color-brand);
+      color: var(--color-bg);
+    }
+
+    .footer-bottom {
+      padding: 1.5rem 3rem;
+      border-top: 1px solid var(--color-stripe);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: .75rem;
+      color: var(--color-faint);
+    }
+
+    @media (max-width:768px) {
+
+      .header,
+      .toolbar,
+      .table-section {
+        padding-inline: 1rem;
+      }
+
+      .footer-cta,
+      .footer-bottom {
+        padding: 1.5rem 1rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .toolbar__count {
+        display: none;
+      }
+
+      .kpi-grid {
+        grid-template-columns: 1fr;
+        gap: .75rem;
+      }
+
+      .dist-labels {
+        flex-direction: column;
+        align-items: center;
+        gap: .25rem;
+        font-size: .65rem;
+      }
+
+      .dist-wrap {
+        padding: 1rem;
+      }
+
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      .table-wrap {
+        background: transparent;
+        box-shadow: none;
+        border: none;
+        overflow: visible;
+      }
+
+      tbody tr {
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        margin-bottom: 1.25rem;
+        box-shadow: var(--shadow-sm);
+        padding: .5rem 0;
+      }
+
+      tbody tr:nth-child(even) td {
+        background: transparent;
+      }
+
+      tbody tr:hover td {
+        background: transparent !important;
+      }
+
+      tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .75rem 1.25rem;
+        border-bottom: 1px solid var(--color-stripe);
+        text-align: right;
+        min-height: 48px;
+      }
+
+      tbody td:last-child {
+        border-bottom: none;
+      }
+
+      tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--color-muted);
+        font-size: .75rem;
+        text-transform: uppercase;
+        margin-right: 1rem;
+        text-align: left;
+      }
+
+      .op-wrap {
+        justify-content: flex-end;
+        width: 65%;
+        text-align: right;
+      }
+
+      .op-name {
+        -webkit-line-clamp: 3;
+      }
+
+      .pool-wrap {
+        justify-content: flex-end;
+        width: 60%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <header class="header">
+      <button class="theme-toggle" id="theme-toggle" title="Alternar Modo Noturno"
+        aria-label="Alternar Modo Noturno"></button>
+      <p class="header__brand">Pool de Risco · ANS</p>
+      <h1 class="header__title">POOL DE RISCO 2026—2027</h1>
+      <p class="header__subtitle">Operadoras de Saúde Suplementar — Beneficiários ativos em fev/2026</p>
+      <p class="header__author"><a href="https://www.linkedin.com/in/kennedyfreire/" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> linkedin/kennedyfreire</a></p>
+
+      <nav class="meta-bar" aria-label="Legenda de modalidades e reajustes">
+        <div class="meta-bar__row">
+          <div class="meta-bar__group" id="legend-filters" role="group" aria-label="Filtrar por modalidade">
+            <button class="legend-item active" data-mod="todos" type="button">
+              <span class="legend-dot" style="background:var(--color-brand)"></span>Todos
+            </button>
+            <button class="legend-item" data-mod="Medicina de Grupo" type="button">
+              <span class="legend-dot" style="background:var(--color-mod-mg)"></span>Medicina de Grupo
+            </button>
+            <button class="legend-item" data-mod="Cooperativa Médica" type="button">
+              <span class="legend-dot" style="background:var(--color-mod-cm)"></span>Cooperativa Médica
+            </button>
+            <button class="legend-item" data-mod="Seguradora" type="button">
+              <span class="legend-dot" style="background:var(--color-mod-seg)"></span>Seguradora
+            </button>
+            <button class="legend-item" data-mod="Filantropia" type="button">
+              <span class="legend-dot" style="background:var(--color-mod-fil)"></span>Filantropia
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Painel Principal de Resumo (KPIs + Bar) -->
+      <div class="summary-panel">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Operadoras</span>
+            <span class="kpi-value" id="kpi-ops">—</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Reajuste Médio (26/27)</span>
+            <span class="kpi-value" id="kpi-media">—</span>
+          </div>
+        </div>
+
+        <div class="dist-wrap" aria-label="Distribuição do Pool 26/27">
+          <div class="dist-labels">
+            <span>Até 8% (<b id="dist-low-n">0</b>)</span>
+            <span>8%–15% (<b id="dist-mid-n">0</b>)</span>
+            <span>Acima de 15% (<b id="dist-high-n">0</b>)</span>
+          </div>
+          <div class="dist-bar">
+            <div class="dist-segment dist-low" id="dist-low" style="width: 0%;"></div>
+            <div class="dist-segment dist-mid" id="dist-mid" style="width: 0%;"></div>
+            <div class="dist-segment dist-high" id="dist-high" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Ferramentas de filtro e ordenação">
+      <div class="toolbar__search-wrap">
+        <svg class="toolbar__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          aria-hidden="true">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input id="search-input" class="toolbar__search" type="search" placeholder="Buscar operadora ou código…"
+          aria-label="Buscar operadora" autocomplete="off">
+      </div>
+
+      <button id="btn-reset" class="toolbar__btn" type="button" title="Limpar todos os filtros">↺ Resetar
+        filtros</button>
+      <span class="toolbar__count" id="count-label" aria-live="polite">
+        Exibindo <strong id="count-visible">—</strong> de <strong id="count-total">—</strong> operadoras
+      </span>
+    </section>
+
+    <section class="table-section">
+      <div class="table-wrap">
+        <table id="main-table" aria-label="Tabela de operadoras no Pool de Risco 2026-2027">
+          <colgroup>
+            <col class="c-rank">
+            <col class="c-op">
+            <col class="c-mod">
+            <col class="c-benef">
+            <col class="c-pool">
+            <col class="c-pool25">
+            <col class="c-acum">
+            <col class="c-media">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="center sort-asc" data-col="rank" id="th-rank" scope="col">#<span class="th-sort-icon">▲</span>
+              </th>
+              <th data-col="nome" id="th-nome" scope="col">Operadora<span class="th-sort-icon">▲</span></th>
+              <th data-col="mod" id="th-mod" scope="col">Modalidade<span class="th-sort-icon">▲</span></th>
+              <th class="num" data-col="benef" id="th-benef" scope="col">Beneficiários<span
+                  class="th-sort-icon">▲</span></th>
+              <th data-col="pool" id="th-pool" scope="col">Pool 26/27<span class="th-sort-icon">▲</span></th>
+              <th data-col="pool25" id="th-pool25" scope="col">Pool 25/26<span class="th-sort-icon">▲</span></th>
+              <th data-col="acum" id="th-acum" scope="col">Acumulado<span class="tt-icon"
+                  data-tooltip="Juros compostos nos dois ciclos: (1 + Pool 26/27) × (1 + Pool 25/26) - 1">?</span><span
+                  class="th-sort-icon">▲</span></th>
+              <th data-col="media" id="th-media" scope="col">Média<span class="tt-icon"
+                  data-tooltip="Média aritmética simples entre os dois períodos">?</span><span
+                  class="th-sort-icon">▲</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+        <div class="empty-state" id="empty-state" hidden>
+          <p class="empty-state__icon">🔍</p>
+          <p>Nenhuma operadora encontrada com os filtros aplicados.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-cta">
+        <p>Desenvolvido orgulhosamente por <strong>Kennedy Freire</strong> para inteligência em Saúde Suplementar.
+        </p>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/kennedyfreire/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> Conecte-se no LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Fonte: dados abertos ANS — atualizado em 20 de abril de 2026</span>
+        <span class="site-footer__tag">Pool de Risco · ANS · 2026—2027</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    /* ─── Dataset injetado pelo generate.py ──────────────────────
+       Campos: rank, codigo, nome, mod, benef, pool25, pool, logo
+       pool25 e pool chegam como float decimal (0.0983 = 9,83%) ou null.
+     ─────────────────────────────────────────────────────────── */
+    const OPERADORAS = [{"rank": 1, "codigo": "368253", "nome": "368253 - HAPVIDA", "mod": "Medicina de Grupo", "benef": 4375810, "pool25": 0.115, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/368253.png"}, {"rank": 2, "codigo": "005711", "nome": "005711 - BRADESCO SAUDE S.A.", "mod": "Seguradora", "benef": 3274484, "pool25": 0.15109999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/005711.png"}, {"rank": 3, "codigo": "359017", "nome": "359017 - HAPVIDA NOTREDAME SP/RJ", "mod": "Medicina de Grupo", "benef": 3208195, "pool25": 0.152, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/359017.png"}, {"rank": 4, "codigo": "326305", "nome": "326305 - AMIL", "mod": "Medicina de Grupo", "benef": 3066124, "pool25": 0.1598, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/326305.png"}, {"rank": 5, "codigo": "006246", "nome": "006246 - SUL AMERICA COMPANHIA DE SEGURO SAÚDE", "mod": "Seguradora", "benef": 2336660, "pool25": 0.1523, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/006246.png"}, {"rank": 6, "codigo": "339679", "nome": "339679 - UNIMED NACIONAL", "mod": "Cooperativa Médica", "benef": 1769159, "pool25": 0.195, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/339679.png"}, {"rank": 7, "codigo": "343889", "nome": "343889 - UNIMED BH", "mod": "Cooperativa Médica", "benef": 1622695, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/343889.png"}, {"rank": 8, "codigo": "000701", "nome": "000701 - SEGUROS UNIMED", "mod": "Seguradora", "benef": 956114, "pool25": 0.1192, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/000701.png"}, {"rank": 9, "codigo": "416428", "nome": "416428 - SUL AMÉRICA PARANÁ CLÍNICAS SERVIÇOS DE SAÚDE S.A.", "mod": "Medicina de Grupo", "benef": 819532, "pool25": 0.1561, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/416428.png"}, {"rank": 10, "codigo": "000582", "nome": "000582 - PORTO SEGURO SAÚDE", "mod": "Seguradora", "benef": 803451, "pool25": 0.15869999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/000582.png"}, {"rank": 11, "codigo": "304701", "nome": "304701 - UNIMED CURITIBA - SOCIEDADE COOPERATIVA DE MÉDICOS", "mod": "Cooperativa Médica", "benef": 663512, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/304701.png"}, {"rank": 12, "codigo": "335690", "nome": "335690 - UNIMED CAMPINAS", "mod": "Cooperativa Médica", "benef": 561812, "pool25": 0.125, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335690.png"}, {"rank": 13, "codigo": "302147", "nome": "302147 - PREVENT SENIOR", "mod": "Medicina de Grupo", "benef": 546190, "pool25": 0.3434, "pool": 0.0, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/302147.png"}, {"rank": 14, "codigo": "309222", "nome": "309222 - ASSIM SAÚDE", "mod": "Medicina de Grupo", "benef": 480784, "pool25": 0.1559, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/309222.png"}, {"rank": 15, "codigo": "348520", "nome": "348520 - HAPVIDA MINAS GERAIS", "mod": "Medicina de Grupo", "benef": 465360, "pool25": 0.152, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348520.png"}, {"rank": 16, "codigo": "357391", "nome": "357391 - UNIMED VITORIA", "mod": "Cooperativa Médica", "benef": 424892, "pool25": 0.0998, "pool": 0.0983, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/357391.png"}, {"rank": 17, "codigo": "342033", "nome": "342033 - SAMP", "mod": "Medicina de Grupo", "benef": 424776, "pool25": 0.129, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/342033.png"}, {"rank": 18, "codigo": "382876", "nome": "382876 - UNIMED GOIANIA", "mod": "Cooperativa Médica", "benef": 384934, "pool25": 0.1139, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/382876.png"}, {"rank": 19, "codigo": "319996", "nome": "319996 - FEDERAÇÃO DAS UNIMEDS DO ESTADO DE SÃO PAULO", "mod": "Cooperativa Médica", "benef": 376854, "pool25": 0.4317, "pool": 0.3134, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/319996.png"}, {"rank": 20, "codigo": "317144", "nome": "317144 - UNIMED DE FORTALEZA", "mod": "Cooperativa Médica", "benef": 362392, "pool25": 0.1492, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/317144.png"}, {"rank": 21, "codigo": "357511", "nome": "357511 - HUMANA SAUDE", "mod": "Medicina de Grupo", "benef": 292110, "pool25": 0.179, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/357511.png"}, {"rank": 22, "codigo": "312363", "nome": "312363 - UNIMED FERJ", "mod": "Cooperativa Médica", "benef": 277087, "pool25": 0.1558, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/312363.png"}, {"rank": 23, "codigo": "335100", "nome": "335100 - UNIMED SAO JOSÉ DO RIO PRETO", "mod": "Cooperativa Médica", "benef": 273147, "pool25": 0.095, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335100.png"}, {"rank": 24, "codigo": "335614", "nome": "335614 - MEDSENIOR", "mod": "Medicina de Grupo", "benef": 272294, "pool25": 0.0745, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335614.png"}, {"rank": 25, "codigo": "340782", "nome": "340782 - HAPVIDA CLINIPAM PARANA", "mod": "Medicina de Grupo", "benef": 249235, "pool25": 0.115, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/340782.png"}, {"rank": 26, "codigo": "303976", "nome": "303976 - UNIMED BELÉM", "mod": "Cooperativa Médica", "benef": 240721, "pool25": 0.1536, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303976.png"}, {"rank": 27, "codigo": "325571", "nome": "325571 - UNIMED SERRA GAUCHA", "mod": "Cooperativa Médica", "benef": 235458, "pool25": 0.0719, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/325571.png"}, {"rank": 28, "codigo": "319121", "nome": "319121 - UNIMED DIVINOPOLIS", "mod": "Cooperativa Médica", "benef": 220263, "pool25": 0.0661, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/319121.png"}, {"rank": 29, "codigo": "343269", "nome": "343269 - UNIMED DE LONDRINA", "mod": "Cooperativa Médica", "benef": 214547, "pool25": 0.125, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/343269.png"}, {"rank": 30, "codigo": "312720", "nome": "312720 - UNIMED PARANÁ", "mod": "Cooperativa Médica", "benef": 205250, "pool25": 0.0654, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/312720.png"}, {"rank": 31, "codigo": "342084", "nome": "342084 - UNIMED CUIABÁ", "mod": "Cooperativa Médica", "benef": 199908, "pool25": 0.0751, "pool": 0.0723, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/342084.png"}, {"rank": 32, "codigo": "344885", "nome": "344885 - UNIMED RECIFE COOPERATIVA DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 195485, "pool25": 0.0653, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/344885.png"}, {"rank": 33, "codigo": "335592", "nome": "335592 - UNIMED NATAL SOCIEDADE COOPERATIVA DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 195439, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335592.png"}, {"rank": 34, "codigo": "360449", "nome": "360449 - UNIMED GRANDE FLORIANÓPOLIS", "mod": "Cooperativa Médica", "benef": 194824, "pool25": 0.20679999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/360449.png"}, {"rank": 35, "codigo": "355097", "nome": "355097 - SANTA HELENA SAÚDE", "mod": "Medicina de Grupo", "benef": 188015, "pool25": 0.1752, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/355097.png"}, {"rank": 36, "codigo": "321044", "nome": "321044 - UNIMED JOAO PESSOA", "mod": "Cooperativa Médica", "benef": 180294, "pool25": 0.1304, "pool": 0.1353, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/321044.png"}, {"rank": 37, "codigo": "351202", "nome": "351202 - UNIMED DE RIBEIRAO PRETO", "mod": "Cooperativa Médica", "benef": 172716, "pool25": 0.1072, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/351202.png"}, {"rank": 38, "codigo": "306398", "nome": "306398 - UNIMED - COOPERATIVA DE SERVIÇOS DE SAÚDE DOS VALES DO TAQUARI E RIO PARDO LTDA.", "mod": "Cooperativa Médica", "benef": 169943, "pool25": 0.1562, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/306398.png"}, {"rank": 39, "codigo": "355691", "nome": "355691 - UNIMED SANTA CATARINA", "mod": "Cooperativa Médica", "benef": 169589, "pool25": 0.0862, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/355691.png"}, {"rank": 40, "codigo": "371254", "nome": "371254 - UNIMED REGIONAL MARINGÁ COOP.DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 168662, "pool25": 0.086, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/371254.png"}, {"rank": 41, "codigo": "348295", "nome": "348295 - UNIMED SOROCABA", "mod": "Cooperativa Médica", "benef": 166087, "pool25": 0.1467, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348295.png"}, {"rank": 42, "codigo": "355721", "nome": "355721 - UNIMED DE SANTOS COOP DE TRAB MEDICO", "mod": "Cooperativa Médica", "benef": 161270, "pool25": 0.1084, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/355721.png"}, {"rank": 43, "codigo": "315729", "nome": "315729 - UNIMED DE PIRACICABA", "mod": "Cooperativa Médica", "benef": 156695, "pool25": 0.1284, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/315729.png"}, {"rank": 44, "codigo": "367095", "nome": "367095 - SAMEL", "mod": "Medicina de Grupo", "benef": 149521, "pool25": 0.0978, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/367095.png"}, {"rank": 45, "codigo": "349682", "nome": "349682 - DOCTOR CLIN", "mod": "Medicina de Grupo", "benef": 147474, "pool25": 0.1036, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/349682.png"}, {"rank": 46, "codigo": "379956", "nome": "379956 - CARE PLUS MEDICINA ASSISTENCIAL LTDA.", "mod": "Medicina de Grupo", "benef": 144001, "pool25": 0.1818, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/379956.png"}, {"rank": 47, "codigo": "314218", "nome": "314218 - ASSOCIAÇÃO DE BENEFICÊNCIA E FILANTROPIA SÃO CRISTOVÃO", "mod": "Filantropia", "benef": 141653, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/314218.png"}, {"rank": 48, "codigo": "327689", "nome": "327689 - UNIMED MACEIÓ COOPERATIVA DE TRABALHO MEDICO", "mod": "Cooperativa Médica", "benef": 139916, "pool25": 0.0707, "pool": 0.09, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/327689.png"}, {"rank": 49, "codigo": "384577", "nome": "384577 - UNIMED UBERLÂNDIA", "mod": "Cooperativa Médica", "benef": 138129, "pool25": 0.1142, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/384577.png"}, {"rank": 50, "codigo": "422029", "nome": "422029 - KLINI", "mod": "Medicina de Grupo", "benef": 138042, "pool25": 0.0, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/422029.png"}, {"rank": 51, "codigo": "348180", "nome": "348180 - HUMANA SAÚDE", "mod": "Medicina de Grupo", "benef": 136879, "pool25": 0.14800000000000002, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348180.png"}, {"rank": 52, "codigo": "348830", "nome": "348830 - PLENA SAÚDE", "mod": "Medicina de Grupo", "benef": 134997, "pool25": 0.14529999999999998, "pool": 0.0723, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348830.png"}, {"rank": 53, "codigo": "306886", "nome": "306886 - UNIMED JUIZ DE FORA COOPERATIVA DE TRABALHO MEDICO LTDA", "mod": "Cooperativa Médica", "benef": 129757, "pool25": 0.1192, "pool": 0.042, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/306886.png"}, {"rank": 54, "codigo": "334561", "nome": "334561 - UNIMED BLUMENAU", "mod": "Cooperativa Médica", "benef": 128777, "pool25": 0.08560000000000001, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/334561.png"}, {"rank": 55, "codigo": "303623", "nome": "303623 - CENTRO TRASMONTANO DE SAO PAULO", "mod": "Medicina de Grupo", "benef": 128634, "pool25": 0.0933, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303623.png"}, {"rank": 56, "codigo": "392804", "nome": "392804 - HAPVIDA RIO GRANDE DO SUL", "mod": "Medicina de Grupo", "benef": 128491, "pool25": 0.115, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/392804.png"}, {"rank": 57, "codigo": "312851", "nome": "312851 - UNIMED CAMPO GRANDE", "mod": "Cooperativa Médica", "benef": 126832, "pool25": 0.0885, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/312851.png"}, {"rank": 58, "codigo": "418170", "nome": "418170 - QUALLITY PRÓ SAÚDE", "mod": "Medicina de Grupo", "benef": 125096, "pool25": 0.0699, "pool": 0.0976, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/418170.png"}, {"rank": 59, "codigo": "321273", "nome": "321273 - UNIMED DE JOINVILLE", "mod": "Cooperativa Médica", "benef": 121659, "pool25": 0.0675, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/321273.png"}, {"rank": 60, "codigo": "354066", "nome": "354066 - UNIMED UBERABA LTDA.", "mod": "Cooperativa Médica", "benef": 120371, "pool25": 0.07339999999999999, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/354066.png"}, {"rank": 61, "codigo": "418021", "nome": "418021 - PLANO SANTA SAÚDE", "mod": "Medicina de Grupo", "benef": 117709, "pool25": 0.14, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/418021.png"}, {"rank": 62, "codigo": "315796", "nome": "315796 - UNIMED DE PRESIDENTE PRUDENTE", "mod": "Cooperativa Médica", "benef": 117190, "pool25": 0.1317, "pool": 0.1027, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/315796.png"}, {"rank": 63, "codigo": "303267", "nome": "303267 - UNIMED JUNDIAÍ", "mod": "Cooperativa Médica", "benef": 114044, "pool25": 0.15810000000000002, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303267.png"}, {"rank": 64, "codigo": "349712", "nome": "349712 - UNIMED PONTA GROSSA", "mod": "Cooperativa Médica", "benef": 114041, "pool25": 0.14859999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/349712.png"}, {"rank": 65, "codigo": "354031", "nome": "354031 - UNIMED SAO CARLOS", "mod": "Cooperativa Médica", "benef": 111404, "pool25": 0.129, "pool": 0.129, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/354031.png"}, {"rank": 66, "codigo": "326500", "nome": "326500 - SOBAM CENTRO MÉDICO HOSPITALAR S.A.", "mod": "Medicina de Grupo", "benef": 109084, "pool25": 0.1521, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/326500.png"}, {"rank": 67, "codigo": "331872", "nome": "331872 - UNIMED SJC", "mod": "Cooperativa Médica", "benef": 109021, "pool25": 0.1512, "pool": 0.148, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/331872.png"}, {"rank": 68, "codigo": "402966", "nome": "402966 - HAPVIDA NOTREDAME SAO PAULO", "mod": "Medicina de Grupo", "benef": 108731, "pool25": 0.152, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/402966.png"}, {"rank": 69, "codigo": "303356", "nome": "303356 - UNIMED LITORAL", "mod": "Cooperativa Médica", "benef": 105838, "pool25": 0.1366, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303356.png"}, {"rank": 70, "codigo": "337188", "nome": "337188 - UNIMED SUL MINEIRA", "mod": "Cooperativa Médica", "benef": 105330, "pool25": 0.0745, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/337188.png"}, {"rank": 71, "codigo": "370070", "nome": "370070 - UNIMED DE CASCAVEL", "mod": "Cooperativa Médica", "benef": 103985, "pool25": 0.121, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/370070.png"}, {"rank": 72, "codigo": "320706", "nome": "320706 - UNIMED SUL CAPIXABA", "mod": "Cooperativa Médica", "benef": 103534, "pool25": 0.10300000000000001, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/320706.png"}, {"rank": 73, "codigo": "369659", "nome": "369659 - UNIMED BAURU", "mod": "Cooperativa Médica", "benef": 103044, "pool25": 0.0933, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/369659.png"}, {"rank": 74, "codigo": "353353", "nome": "353353 - UNIMED TERESINA", "mod": "Cooperativa Médica", "benef": 102087, "pool25": 0.0993, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/353353.png"}, {"rank": 75, "codigo": "353663", "nome": "353663 - UNIMED NORTE DO MATO GROSSO", "mod": "Cooperativa Médica", "benef": 101332, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/353663.png"}, {"rank": 76, "codigo": "302953", "nome": "302953 - UNIMED COSTA DO SOL", "mod": "Cooperativa Médica", "benef": 100251, "pool25": 0.1185, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/302953.png"}, {"rank": 77, "codigo": "354783", "nome": "354783 - UNIMED DE FRANCA", "mod": "Cooperativa Médica", "benef": 94189, "pool25": 0.119, "pool": 0.1146, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/354783.png"}, {"rank": 78, "codigo": "356417", "nome": "356417 - UNIMED (RS) VALE DO SINOS", "mod": "Cooperativa Médica", "benef": 92387, "pool25": 0.18530000000000002, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/356417.png"}, {"rank": 79, "codigo": "369292", "nome": "369292 - UNIMED DE SANTA BÁRBARA D'OESTE E AMERICANA - COOP DE TRABALHO M", "mod": "Cooperativa Médica", "benef": 91554, "pool25": 0.127, "pool": 0.1125, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/369292.png"}, {"rank": 80, "codigo": "336106", "nome": "336106 - UNIMED DE MARÍLIA", "mod": "Cooperativa Médica", "benef": 90843, "pool25": 0.0734, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/336106.png"}, {"rank": 81, "codigo": "364312", "nome": "364312 - UNIMED DE ARARAQUARA", "mod": "Cooperativa Médica", "benef": 89370, "pool25": 0.0883, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/364312.png"}, {"rank": 82, "codigo": "343731", "nome": "343731 - UNIMED LESTE FLUMINENSE", "mod": "Cooperativa Médica", "benef": 88654, "pool25": 0.11710000000000001, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/343731.png"}, {"rank": 83, "codigo": "329339", "nome": "329339 - UNIMED CRICIÚMA", "mod": "Cooperativa Médica", "benef": 84504, "pool25": 0.0931, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/329339.png"}, {"rank": 84, "codigo": "367087", "nome": "367087 - UNIMED RIO GRANDE DO SUL", "mod": "Cooperativa Médica", "benef": 80042, "pool25": 0.1408, "pool": 0.1298, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/367087.png"}, {"rank": 85, "codigo": "311847", "nome": "311847 - UNIMED BAIXA MOGIANA", "mod": "Cooperativa Médica", "benef": 79811, "pool25": 0.08439999999999999, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/311847.png"}, {"rank": 86, "codigo": "321958", "nome": "321958 - UNIMED DO CEARA", "mod": "Cooperativa Médica", "benef": 63354, "pool25": 0.1127, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/321958.png"}, {"rank": 87, "codigo": "356123", "nome": "356123 - UNIMED DO CARIRI", "mod": "Cooperativa Médica", "benef": 34763, "pool25": 0.1863, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/356123.png"}, {"rank": 88, "codigo": "303178", "nome": "303178 - UNIMED DE SOBRAL", "mod": "Cooperativa Médica", "benef": 14896, "pool25": 0.105, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303178.png"}];
+
+    const TOTAL = OPERADORAS.length;
+    document.getElementById('count-total').textContent = TOTAL;
+
+    /* ─── Cor de badge por modalidade ────────────────────────── */
+    const MOD_COLOR = {
+      'Medicina de Grupo': '#2E5C8A',
+      'Cooperativa Médica': '#3F8A56',
+      'Seguradora': '#C68A3A',
+      'Filantropia': '#B5424A',
+    };
+
+    /* ─── Cor da barra por taxa decimal (0.10 → 10%) ─────────── */
+    const barColor = (v) => {
+      const p = v * 100;
+      if (p <= 8) return '#2E8B57';
+      if (p <= 15) return '#E0962E';
+      return '#C0392B';
+    };
+
+    /* ─── Máximos pré-calculados para normalização das barras ── */
+    const MAX_POOL = Math.max(1e-9, ...OPERADORAS.filter(o => o.pool != null).map(o => o.pool));
+
+    /* ─── Estado ─────────────────────────────────────────────── */
+    const state = { query: '', modFilter: 'todos', sortCol: 'rank', sortAsc: true };
+
+    /* ─── Helpers ─────────────────────────────────────────────── */
+    const fmt = (n) => n.toLocaleString('pt-BR');
+    const fmtPct = (v) => (v * 100).toFixed(2).replace('.', ',') + '%';
+    const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const hl = (text, q) => {
+      const terms = (q || '').trim().split(/\s+/).filter(Boolean);
+      if (!terms.length) return text;
+      const re = new RegExp(`(${terms.map(escRe).join('|')})`, 'gi');
+      return text.replace(re, '<mark>$1</mark>');
+    };
+
+    const poolCell = (val, maxVal) => {
+      if (val == null) return `<span class="pool-pct empty">—</span><div class="bar"></div>`;
+      const bw = Math.min(val / maxVal * 100, 100).toFixed(1);
+      const bc = barColor(val);
+      return `<span class="pool-pct">${fmtPct(val)}</span>
+            <div class="bar"><div class="bar-fill" style="width:${bw}%;background:${bc}"></div></div>`;
+    };
+
+    /* Célula só com percentual, sem barra (ex.: Média) */
+    const pctCell = (val) => val != null
+      ? `<span class="pool-pct">${fmtPct(val)}</span>`
+      : `<span class="pool-pct empty">—</span>`;
+
+    /* ─── Filtragem e ordenação ───────────────────────────────── */
+    const getFiltered = () => {
+      const qStr = state.query.toLowerCase();
+      const terms = qStr.split(/\s+/).filter(Boolean);
+      const inf = (asc) => asc ? Infinity : -Infinity;
+
+      const acumOf = (o) => (o.pool25 != null && o.pool != null) ? (1 + o.pool25) * (1 + o.pool) - 1 : null;
+      const mediaOf = (o) => (o.pool25 != null && o.pool != null) ? (o.pool25 + o.pool) / 2 : null;
+
+      return OPERADORAS
+        .filter(({ codigo, nome, mod, pool }) => {
+          const nomeLower = nome.toLowerCase();
+          if (terms.length > 0 && !terms.every(t => nomeLower.includes(t))) return false;
+          if (state.modFilter !== 'todos' && !mod.toLowerCase().includes(state.modFilter.toLowerCase())) return false;
+          return true;
+        })
+        .sort((a, b) => {
+          let va, vb;
+          switch (state.sortCol) {
+            case 'rank': va = a.rank; vb = b.rank; break;
+            case 'nome': va = a.nome; vb = b.nome; break;
+            case 'mod': va = a.mod; vb = b.mod; break;
+            case 'benef': va = a.benef; vb = b.benef; break;
+            case 'pool25': va = a.pool25 ?? inf(state.sortAsc); vb = b.pool25 ?? inf(state.sortAsc); break;
+            case 'pool': va = a.pool ?? inf(state.sortAsc); vb = b.pool ?? inf(state.sortAsc); break;
+            case 'acum': va = acumOf(a) ?? inf(state.sortAsc); vb = acumOf(b) ?? inf(state.sortAsc); break;
+            case 'media': va = mediaOf(a) ?? inf(state.sortAsc); vb = mediaOf(b) ?? inf(state.sortAsc); break;
+            default: va = a.rank; vb = b.rank;
+          }
+          if (va < vb) return state.sortAsc ? -1 : 1;
+          if (va > vb) return state.sortAsc ? 1 : -1;
+          return 0;
+        });
+    };
+
+    /* ─── Renderização ────────────────────────────────────────── */
+    const tbody = document.getElementById('table-body');
+    const emptyState = document.getElementById('empty-state');
+    const countEl = document.getElementById('count-visible');
+
+    const render = () => {
+      const data = getFiltered();
+      const q = state.query;
+
+      if (data.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.hidden = false;
+      } else {
+        emptyState.hidden = true;
+        const frag = document.createDocumentFragment();
+
+        data.forEach((op) => {
+          const { rank, codigo, nome, mod, benef, pool25 = null, pool = null, logo = '' } = op;
+          const tr = document.createElement('tr');
+          const key = nome;
+
+          /* Derivados */
+          const acumVal = (pool25 != null && pool != null) ? (1 + pool25) * (1 + pool) - 1 : null;
+          const mediaVal = (pool25 != null && pool != null) ? (pool25 + pool) / 2 : null;
+
+          const logoHtml = logo
+            ? `<img class="op-logo" src="${logo}" alt="${nome}" loading="lazy" onerror="this.style.display='none';">`
+            : '';
+
+          tr.innerHTML = `
+          <td data-label="Rank" class="rank">${rank}</td>
+          <td data-label="Operadora" class="operadora">
+            <div class="op-wrap">
+              ${logoHtml}
+              <span class="op-name">${hl(key, q)}</span>
+            </div>
+          </td>
+          <td data-label="Modalidade"><span class="badge" style="background:${MOD_COLOR[mod] ?? '#888'}">${hl(mod, q)}</span></td>
+          <td data-label="Beneficiários" class="benef">${fmt(benef)}</td>
+          <td data-label="Pool 26/27"><div class="pool-wrap">${poolCell(pool, MAX_POOL, '26/27')}</div></td>
+          <td data-label="Pool 25/26">${pctCell(pool25)}</td>
+          <td data-label="Acumulado">${pctCell(acumVal)}</td>
+          <td data-label="Média">${pctCell(mediaVal)}</td>`;
+
+          frag.appendChild(tr);
+        });
+
+        tbody.innerHTML = '';
+        tbody.appendChild(frag);
+      }
+      countEl.textContent = data.length;
+
+      /* ─── Atualização de KPIs e Gráfico de Barras ─────────────── */
+      let tVidas = 0, pSum = 0, pCount = 0;
+      let cLow = 0, cMid = 0, cHigh = 0;
+
+      data.forEach(op => {
+        tVidas += (op.benef || 0);
+        if (op.pool != null) {
+          pSum += op.pool;
+          pCount++;
+          let p = op.pool * 100;
+          if (p <= 8) cLow++;
+          else if (p <= 15) cMid++;
+          else cHigh++;
+        }
+      });
+
+      document.getElementById('kpi-ops').textContent = fmt(data.length);
+      document.getElementById('kpi-media').textContent = pCount > 0 ? fmtPct(pSum / pCount) : '—';
+
+      const wLow = pCount ? (cLow / pCount * 100) : 0;
+      const wMid = pCount ? (cMid / pCount * 100) : 0;
+      const wHigh = pCount ? (cHigh / pCount * 100) : 0;
+
+      document.getElementById('dist-low').style.width = wLow + '%';
+      document.getElementById('dist-mid').style.width = wMid + '%';
+      document.getElementById('dist-high').style.width = wHigh + '%';
+
+      document.getElementById('dist-low-n').textContent = fmt(cLow);
+      document.getElementById('dist-mid-n').textContent = fmt(cMid);
+      document.getElementById('dist-high-n').textContent = fmt(cHigh);
+    };
+
+    /* ─── Ordenação ───────────────────────────────────────────── */
+    document.querySelectorAll('thead th[data-col]').forEach((th) => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.col;
+        state.sortAsc = state.sortCol === col ? !state.sortAsc : true;
+        state.sortCol = col;
+        document.querySelectorAll('thead th[data-col]').forEach((h) => h.classList.remove('sort-asc', 'sort-desc'));
+        th.classList.add(state.sortAsc ? 'sort-asc' : 'sort-desc');
+        render();
+      });
+    });
+
+    /* ─── Busca ───────────────────────────────────────────────── */
+    let debounce;
+    document.getElementById('search-input').addEventListener('input', ({ target }) => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => { state.query = target.value.trim(); render(); }, 200);
+    });
+
+
+
+    /* ─── Reset ───────────────────────────────────────────────── */
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      state.query = ''; state.modFilter = 'todos';
+      state.sortCol = 'rank'; state.sortAsc = true;
+      document.getElementById('search-input').value = '';
+      document.querySelectorAll('thead th[data-col]').forEach((h) => h.classList.remove('sort-asc', 'sort-desc'));
+      document.getElementById('th-rank').classList.add('sort-asc');
+      document.querySelectorAll('.legend-item').forEach((el) => el.classList.remove('active'));
+      document.querySelector('.legend-item[data-mod="todos"]').classList.add('active');
+      render();
+    });
+
+    /* ─── Filtro por modalidade ───────────────────────────────── */
+    document.getElementById('legend-filters').addEventListener('click', ({ target }) => {
+      const btn = target.closest('[data-mod]');
+      if (!btn) return;
+      document.querySelectorAll('.legend-item').forEach((el) => el.classList.remove('active'));
+      btn.classList.add('active');
+      state.modFilter = btn.dataset.mod;
+      render();
+    });
+
+    /* ─── Modo Escuro ─────────────────────────────────────────── */
+    const themeBtn = document.getElementById('theme-toggle');
+    const iconMoon = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+    const iconSun = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+
+    const updateThemeIcon = () => {
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      themeBtn.innerHTML = isDark ? iconSun : iconMoon;
+    };
+    if (localStorage.getItem('riskPoolTheme') === 'dark') {
+      document.documentElement.classList.add('theme-dark');
+    }
+    updateThemeIcon();
+
+    themeBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('theme-dark');
+      localStorage.setItem('riskPoolTheme', document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light');
+      updateThemeIcon();
+    });
+
+    /* ─── Init ────────────────────────────────────────────────── */
+    render();
+  </script>
+</body>
+
+</html>
