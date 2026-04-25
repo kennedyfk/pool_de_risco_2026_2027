@@ -563,6 +563,200 @@
       font-weight: 700;
     }
 
+    /* ─── Beneficiários Range Slider Duplo ───────────────────── */
+    .range-slider {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0 0.25rem;
+      width: 440px;
+    }
+    .range-slider label {
+      font-size: .75rem;
+      color: var(--color-muted);
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .range-inputs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .range-inputs input {
+      border: none;
+      background: transparent;
+      color: var(--color-brand-dark);
+      font-weight: 700;
+      font-family: inherit;
+      font-size: .75rem;
+      text-align: center;
+      width: 65px;
+      outline: none;
+      border-bottom: 1px dashed var(--color-muted);
+      transition: border-color 0.2s;
+    }
+    .range-inputs input:focus {
+      border-bottom-color: var(--color-brand);
+    }
+    html.theme-dark .range-inputs input {
+      color: #fff;
+    }
+    .range-slider__track-wrap {
+      position: relative;
+      width: 100%;
+      height: 20px;
+      margin-top: 2px;
+    }
+    .range-slider__track {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 6px;
+      background: var(--color-border);
+      border-radius: 3px;
+    }
+    .range-slider__fill {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 6px;
+      background: var(--color-brand);
+      border-radius: 3px;
+      z-index: 1;
+    }
+    .range-slider input[type=range] {
+      position: absolute;
+      width: 100%;
+      height: 20px;
+      top: 0;
+      left: 0;
+      margin: 0;
+      -webkit-appearance: none;
+      background: none;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .range-slider input[type=range]:focus {
+      outline: none;
+    }
+    .range-slider input[type=range]::-webkit-slider-thumb {
+      pointer-events: auto;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--color-brand);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.1s;
+    }
+    .range-slider input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    .range-slider input[type=range]::-moz-range-thumb {
+      pointer-events: auto;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--color-brand);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.1s;
+    }
+    .range-slider input[type=range]::-moz-range-thumb:hover {
+      transform: scale(1.15);
+    }
+    
+    /* ─── Botão de Favorito ──────────────────────────────────── */
+    .fav-btn {
+      background: none;
+      border: none;
+      color: var(--color-border);
+      font-size: 1.35rem;
+      cursor: pointer;
+      transition: color 0.15s, transform 0.15s;
+      padding: 0;
+      line-height: 1;
+      outline: none;
+    }
+    .fav-btn:hover {
+      transform: scale(1.15);
+      color: #F5A623;
+    }
+    .fav-btn.active {
+      color: #F5A623;
+    }
+
+    /* ─── Modal Nativo ───────────────────────────────────────── */
+    dialog {
+      margin: auto;
+      padding: 1.75rem 2rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-bg);
+      color: var(--color-text);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      max-width: 380px;
+      text-align: center;
+    }
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(2px);
+    }
+    html.theme-dark dialog {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    dialog h3 {
+      font-size: 1.15rem;
+      margin-bottom: .5rem;
+      color: var(--color-brand-dark);
+    }
+    html.theme-dark dialog h3 {
+      color: #fff;
+    }
+    dialog p {
+      font-size: .85rem;
+      color: var(--color-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+    .dialog-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .btn-outline, .btn-danger {
+      padding: .6rem 1.25rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: .85rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--color-border);
+      color: var(--color-text);
+    }
+    .btn-outline:hover {
+      border-color: var(--color-faint);
+      background: var(--color-surface);
+    }
+    .btn-danger {
+      background: #C0392B;
+      border: 1.5px solid transparent;
+      color: #fff;
+    }
+    .btn-danger:hover {
+      background: #A93226;
+    }
+
     /* ─── Tabela ─────────────────────────────────────────────── */
     .table-section {
       padding: 1.5rem 3rem 1.5rem;
@@ -957,6 +1151,12 @@
         width: 60%;
       }
     }
+
+    /* Apenas garantia de que o btn-pdf não aparece se o usuário usar Ctrl+P direto */
+    @media print {
+      #btn-pdf, .print-meta { display: none !important; }
+    }
+    .print-meta { display: none; }
   </style>
 </head>
 
@@ -970,7 +1170,7 @@
       <h1 class="header__title">POOL DE RISCO 2026—2027</h1>
       <p class="header__subtitle">Operadoras de Saúde Suplementar — Beneficiários ativos em fev/2026 </p>
       <p class="header__author"><span style="display:inline-block; margin-left:8px; opacity:0.8;">Atualizado em: <strong
-            style="color: var(--color-brand); font-weight: 700;">23/04/2026 - 23:31</strong></span></p>
+            style="color: var(--color-brand); font-weight: 700;">25/04/2026 - 10:08</strong></span></p>
       <p class="header__author"><a href="https://www.linkedin.com/in/kennedyfreire/" target="_blank" rel="noopener"><svg
             xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path
@@ -1038,13 +1238,52 @@
           aria-label="Buscar operadora" autocomplete="off">
       </div>
 
+      <div style="display:flex; gap:0.35rem;">
+        <button id="btn-filter-fav" class="toolbar__btn" type="button" title="Mostrar apenas operadoras favoritas">★ Favoritos</button>
+        <button id="btn-clear-fav" class="toolbar__btn" type="button" title="Limpar todos os favoritos" aria-label="Limpar favoritos" style="padding-left:0.6rem; padding-right:0.6rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
+      </div>
       <button id="btn-filter-pool" class="toolbar__btn" type="button"
         title="Mostrar apenas operadoras com reajuste no Pool 26/27">Pool 26/27 Informado</button>
       <button id="btn-reset" class="toolbar__btn" type="button" title="Limpar todos os filtros">↺ Resetar
         filtros</button>
+
+      <div class="range-slider" aria-label="Filtrar por intervalo de beneficiários">
+        <label>
+          Beneficiários: 
+          <div class="range-inputs">
+            <input type="text" id="benef-val-min" value="0" aria-label="Digitar mínimo de beneficiários">
+            <span style="color:var(--color-muted);font-weight:400">—</span> 
+            <input type="text" id="benef-val-max" value="Máx" aria-label="Digitar máximo de beneficiários">
+          </div>
+        </label>
+        <div class="range-slider__track-wrap">
+          <div class="range-slider__track"></div>
+          <div class="range-slider__fill" id="benef-fill"></div>
+          <input type="range" id="benef-min" min="0" max="10000" step="1" value="0" aria-label="Mínimo de beneficiários">
+          <input type="range" id="benef-max" min="0" max="10000" step="1" value="10000" aria-label="Máximo de beneficiários">
+        </div>
+      </div>
+
       <span class="toolbar__count" id="count-label" aria-live="polite">
         Exibindo <strong id="count-visible">—</strong> de <strong id="count-total">—</strong> operadoras
       </span>
+
+      <button id="btn-pdf" class="toolbar__btn" type="button" title="Exportar tabela filtrada em PDF"
+        style="margin-left:auto; color:var(--color-brand); border-color:var(--color-brand);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        Exportar PDF
+      </button>
     </section>
 
     <section class="table-section">
@@ -1108,6 +1347,19 @@
       </div>
     </footer>
 
+    <p class="print-meta">
+      Pool de Risco 2026—2027 · Gerado em: <strong id="print-date"></strong>
+    </p>
+
+    <dialog id="modal-clear-fav" aria-labelledby="modal-title" aria-describedby="modal-desc">
+      <h3 id="modal-title">Remover favoritos?</h3>
+      <p id="modal-desc">Todos os registros salvos como favoritos serão apagados permanentemente deste navegador.</p>
+      <div class="dialog-actions">
+        <button id="btn-cancel-clear" class="btn-outline">Cancelar</button>
+        <button id="btn-confirm-clear" class="btn-danger">Sim, limpar</button>
+      </div>
+    </dialog>
+
   </main>
 
   <script>
@@ -1115,7 +1367,7 @@
        Campos: rank, codigo, nome, mod, benef, pool25, pool, logo
        pool25 e pool chegam como float decimal (0.0983 = 9,83%) ou null.
      ─────────────────────────────────────────────────────────── */
-    const OPERADORAS = [{"rank": 1, "codigo": "368253", "nome": "368253 - HAPVIDA", "mod": "Medicina de Grupo", "benef": 4375810, "pool25": 0.115, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/368253.png", "medal": ""}, {"rank": 2, "codigo": "005711", "nome": "005711 - BRADESCO SAUDE S.A.", "mod": "Seguradora", "benef": 3274484, "pool25": 0.15109999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/005711.png", "medal": ""}, {"rank": 3, "codigo": "359017", "nome": "359017 - HAPVIDA NOTREDAME SP/RJ", "mod": "Medicina de Grupo", "benef": 3208195, "pool25": 0.152, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/359017.png", "medal": ""}, {"rank": 4, "codigo": "326305", "nome": "326305 - AMIL", "mod": "Medicina de Grupo", "benef": 3066124, "pool25": 0.1598, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/326305.png", "medal": ""}, {"rank": 5, "codigo": "006246", "nome": "006246 - SUL AMERICA COMPANHIA DE SEGURO SAÚDE", "mod": "Seguradora", "benef": 2336660, "pool25": 0.1523, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/006246.png", "medal": ""}, {"rank": 6, "codigo": "339679", "nome": "339679 - UNIMED NACIONAL", "mod": "Cooperativa Médica", "benef": 1769159, "pool25": 0.195, "pool": 0.103, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/339679.png", "medal": ""}, {"rank": 7, "codigo": "343889", "nome": "343889 - UNIMED BH", "mod": "Cooperativa Médica", "benef": 1622695, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/343889.png", "medal": ""}, {"rank": 8, "codigo": "000701", "nome": "000701 - SEGUROS UNIMED", "mod": "Seguradora", "benef": 956114, "pool25": 0.1192, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/000701.png", "medal": ""}, {"rank": 9, "codigo": "416428", "nome": "416428 - SUL AMÉRICA PARANÁ CLÍNICAS SERVIÇOS DE SAÚDE S.A.", "mod": "Medicina de Grupo", "benef": 819532, "pool25": 0.1561, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/416428.png", "medal": ""}, {"rank": 10, "codigo": "000582", "nome": "000582 - PORTO SEGURO SAÚDE", "mod": "Seguradora", "benef": 803451, "pool25": 0.15869999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/000582.png", "medal": ""}, {"rank": 11, "codigo": "304701", "nome": "304701 - UNIMED CURITIBA - SOCIEDADE COOPERATIVA DE MÉDICOS", "mod": "Cooperativa Médica", "benef": 663512, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/304701.png", "medal": ""}, {"rank": 12, "codigo": "335690", "nome": "335690 - UNIMED CAMPINAS", "mod": "Cooperativa Médica", "benef": 561812, "pool25": 0.125, "pool": 0.068, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335690.png", "medal": ""}, {"rank": 13, "codigo": "302147", "nome": "302147 - PREVENT SENIOR", "mod": "Medicina de Grupo", "benef": 546190, "pool25": 0.3434, "pool": 0.0, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/302147.png", "medal": "🥇"}, {"rank": 14, "codigo": "309222", "nome": "309222 - ASSIM SAÚDE", "mod": "Medicina de Grupo", "benef": 480784, "pool25": 0.1559, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/309222.png", "medal": ""}, {"rank": 15, "codigo": "348520", "nome": "348520 - HAPVIDA MINAS GERAIS", "mod": "Medicina de Grupo", "benef": 465360, "pool25": 0.152, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348520.png", "medal": ""}, {"rank": 16, "codigo": "357391", "nome": "357391 - UNIMED VITORIA", "mod": "Cooperativa Médica", "benef": 424892, "pool25": 0.0998, "pool": 0.0983, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/357391.png", "medal": ""}, {"rank": 17, "codigo": "342033", "nome": "342033 - SAMP", "mod": "Medicina de Grupo", "benef": 424776, "pool25": 0.129, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/342033.png", "medal": ""}, {"rank": 18, "codigo": "382876", "nome": "382876 - UNIMED GOIANIA", "mod": "Cooperativa Médica", "benef": 384934, "pool25": 0.1139, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/382876.png", "medal": ""}, {"rank": 19, "codigo": "319996", "nome": "319996 - FEDERAÇÃO DAS UNIMEDS DO ESTADO DE SÃO PAULO", "mod": "Cooperativa Médica", "benef": 376854, "pool25": 0.4317, "pool": 0.3134, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/319996.png", "medal": "🚨"}, {"rank": 20, "codigo": "317144", "nome": "317144 - UNIMED DE FORTALEZA", "mod": "Cooperativa Médica", "benef": 362392, "pool25": 0.1492, "pool": 0.1274, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/317144.png", "medal": ""}, {"rank": 21, "codigo": "357511", "nome": "357511 - HUMANA SAUDE", "mod": "Medicina de Grupo", "benef": 292110, "pool25": 0.179, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/357511.png", "medal": ""}, {"rank": 22, "codigo": "312363", "nome": "312363 - UNIMED FERJ", "mod": "Cooperativa Médica", "benef": 277087, "pool25": 0.1558, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/312363.png", "medal": ""}, {"rank": 23, "codigo": "335100", "nome": "335100 - UNIMED SAO JOSÉ DO RIO PRETO", "mod": "Cooperativa Médica", "benef": 273147, "pool25": 0.095, "pool": 0.0918, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335100.png", "medal": ""}, {"rank": 24, "codigo": "335614", "nome": "335614 - MEDSENIOR", "mod": "Medicina de Grupo", "benef": 272294, "pool25": 0.0745, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335614.png", "medal": ""}, {"rank": 25, "codigo": "340782", "nome": "340782 - HAPVIDA CLINIPAM PARANA", "mod": "Medicina de Grupo", "benef": 249235, "pool25": 0.115, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/340782.png", "medal": ""}, {"rank": 26, "codigo": "303976", "nome": "303976 - UNIMED BELÉM", "mod": "Cooperativa Médica", "benef": 240721, "pool25": 0.1536, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303976.png", "medal": ""}, {"rank": 27, "codigo": "325571", "nome": "325571 - UNIMED SERRA GAUCHA", "mod": "Cooperativa Médica", "benef": 235458, "pool25": 0.0719, "pool": 0.0658, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/325571.png", "medal": ""}, {"rank": 28, "codigo": "319121", "nome": "319121 - UNIMED DIVINOPOLIS", "mod": "Cooperativa Médica", "benef": 220263, "pool25": 0.0661, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/319121.png", "medal": ""}, {"rank": 29, "codigo": "343269", "nome": "343269 - UNIMED DE LONDRINA", "mod": "Cooperativa Médica", "benef": 214547, "pool25": 0.125, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/343269.png", "medal": ""}, {"rank": 30, "codigo": "312720", "nome": "312720 - UNIMED PARANÁ", "mod": "Cooperativa Médica", "benef": 205250, "pool25": 0.0654, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/312720.png", "medal": ""}, {"rank": 31, "codigo": "342084", "nome": "342084 - UNIMED CUIABÁ", "mod": "Cooperativa Médica", "benef": 199908, "pool25": 0.0751, "pool": 0.0723, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/342084.png", "medal": ""}, {"rank": 32, "codigo": "344885", "nome": "344885 - UNIMED RECIFE COOPERATIVA DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 195485, "pool25": 0.0653, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/344885.png", "medal": ""}, {"rank": 33, "codigo": "335592", "nome": "335592 - UNIMED NATAL SOCIEDADE COOPERATIVA DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 195439, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/335592.png", "medal": ""}, {"rank": 34, "codigo": "360449", "nome": "360449 - UNIMED GRANDE FLORIANÓPOLIS", "mod": "Cooperativa Médica", "benef": 194824, "pool25": 0.20679999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/360449.png", "medal": ""}, {"rank": 35, "codigo": "355097", "nome": "355097 - SANTA HELENA SAÚDE", "mod": "Medicina de Grupo", "benef": 188015, "pool25": 0.1752, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/355097.png", "medal": ""}, {"rank": 36, "codigo": "321044", "nome": "321044 - UNIMED JOAO PESSOA", "mod": "Cooperativa Médica", "benef": 180294, "pool25": 0.1304, "pool": 0.1353, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/321044.png", "medal": ""}, {"rank": 37, "codigo": "351202", "nome": "351202 - UNIMED DE RIBEIRAO PRETO", "mod": "Cooperativa Médica", "benef": 172716, "pool25": 0.1072, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/351202.png", "medal": ""}, {"rank": 38, "codigo": "306398", "nome": "306398 - UNIMED - COOPERATIVA DE SERVIÇOS DE SAÚDE DOS VALES DO TAQUARI E RIO PARDO LTDA.", "mod": "Cooperativa Médica", "benef": 169943, "pool25": 0.1562, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/306398.png", "medal": ""}, {"rank": 39, "codigo": "355691", "nome": "355691 - UNIMED SANTA CATARINA", "mod": "Cooperativa Médica", "benef": 169589, "pool25": 0.0862, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/355691.png", "medal": ""}, {"rank": 40, "codigo": "371254", "nome": "371254 - UNIMED REGIONAL MARINGÁ COOP.DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 168662, "pool25": 0.086, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/371254.png", "medal": ""}, {"rank": 41, "codigo": "348295", "nome": "348295 - UNIMED SOROCABA", "mod": "Cooperativa Médica", "benef": 166087, "pool25": 0.1467, "pool": 0.0567, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348295.png", "medal": "🥉"}, {"rank": 42, "codigo": "355721", "nome": "355721 - UNIMED DE SANTOS COOP DE TRAB MEDICO", "mod": "Cooperativa Médica", "benef": 161270, "pool25": 0.1084, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/355721.png", "medal": ""}, {"rank": 43, "codigo": "315729", "nome": "315729 - UNIMED DE PIRACICABA", "mod": "Cooperativa Médica", "benef": 156695, "pool25": 0.1284, "pool": 0.1448, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/315729.png", "medal": ""}, {"rank": 44, "codigo": "367095", "nome": "367095 - SAMEL", "mod": "Medicina de Grupo", "benef": 149521, "pool25": 0.0978, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/367095.png", "medal": ""}, {"rank": 45, "codigo": "349682", "nome": "349682 - DOCTOR CLIN", "mod": "Medicina de Grupo", "benef": 147474, "pool25": 0.1036, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/349682.png", "medal": ""}, {"rank": 46, "codigo": "379956", "nome": "379956 - CARE PLUS MEDICINA ASSISTENCIAL LTDA.", "mod": "Medicina de Grupo", "benef": 144001, "pool25": 0.1818, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/379956.png", "medal": ""}, {"rank": 47, "codigo": "314218", "nome": "314218 - ASSOCIAÇÃO DE BENEFICÊNCIA E FILANTROPIA SÃO CRISTOVÃO", "mod": "Filantropia", "benef": 141653, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/314218.png", "medal": ""}, {"rank": 48, "codigo": "327689", "nome": "327689 - UNIMED MACEIÓ COOPERATIVA DE TRABALHO MEDICO", "mod": "Cooperativa Médica", "benef": 139916, "pool25": 0.0707, "pool": 0.09, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/327689.png", "medal": ""}, {"rank": 49, "codigo": "384577", "nome": "384577 - UNIMED UBERLÂNDIA", "mod": "Cooperativa Médica", "benef": 138129, "pool25": 0.1142, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/384577.png", "medal": ""}, {"rank": 50, "codigo": "422029", "nome": "422029 - KLINI", "mod": "Medicina de Grupo", "benef": 138042, "pool25": 0.0, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/422029.png", "medal": ""}, {"rank": 51, "codigo": "348180", "nome": "348180 - HUMANA SAÚDE", "mod": "Medicina de Grupo", "benef": 136879, "pool25": 0.14800000000000002, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348180.png", "medal": ""}, {"rank": 52, "codigo": "348830", "nome": "348830 - PLENA SAÚDE", "mod": "Medicina de Grupo", "benef": 134997, "pool25": 0.14529999999999998, "pool": 0.0723, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/348830.png", "medal": ""}, {"rank": 53, "codigo": "306886", "nome": "306886 - UNIMED JUIZ DE FORA COOPERATIVA DE TRABALHO MEDICO LTDA", "mod": "Cooperativa Médica", "benef": 129757, "pool25": 0.1192, "pool": 0.042, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/306886.png", "medal": "🥈"}, {"rank": 54, "codigo": "334561", "nome": "334561 - UNIMED BLUMENAU", "mod": "Cooperativa Médica", "benef": 128777, "pool25": 0.08560000000000001, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/334561.png", "medal": ""}, {"rank": 55, "codigo": "303623", "nome": "303623 - CENTRO TRASMONTANO DE SAO PAULO", "mod": "Medicina de Grupo", "benef": 128634, "pool25": 0.0933, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303623.png", "medal": ""}, {"rank": 56, "codigo": "392804", "nome": "392804 - HAPVIDA RIO GRANDE DO SUL", "mod": "Medicina de Grupo", "benef": 128491, "pool25": 0.115, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/392804.png", "medal": ""}, {"rank": 57, "codigo": "312851", "nome": "312851 - UNIMED CAMPO GRANDE", "mod": "Cooperativa Médica", "benef": 126832, "pool25": 0.0885, "pool": 0.0698, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/312851.png", "medal": ""}, {"rank": 58, "codigo": "418170", "nome": "418170 - QUALLITY PRÓ SAÚDE", "mod": "Medicina de Grupo", "benef": 125096, "pool25": 0.0699, "pool": 0.0976, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/418170.png", "medal": ""}, {"rank": 59, "codigo": "321273", "nome": "321273 - UNIMED DE JOINVILLE", "mod": "Cooperativa Médica", "benef": 121659, "pool25": 0.0675, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/321273.png", "medal": ""}, {"rank": 60, "codigo": "354066", "nome": "354066 - UNIMED UBERABA LTDA.", "mod": "Cooperativa Médica", "benef": 120371, "pool25": 0.07339999999999999, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/354066.png", "medal": ""}, {"rank": 61, "codigo": "418021", "nome": "418021 - PLANO SANTA SAÚDE", "mod": "Medicina de Grupo", "benef": 117709, "pool25": 0.14, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/418021.png", "medal": ""}, {"rank": 62, "codigo": "315796", "nome": "315796 - UNIMED DE PRESIDENTE PRUDENTE", "mod": "Cooperativa Médica", "benef": 117190, "pool25": 0.1317, "pool": 0.1027, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/315796.png", "medal": ""}, {"rank": 63, "codigo": "303267", "nome": "303267 - UNIMED JUNDIAÍ", "mod": "Cooperativa Médica", "benef": 114044, "pool25": 0.15810000000000002, "pool": 0.136, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303267.png", "medal": ""}, {"rank": 64, "codigo": "349712", "nome": "349712 - UNIMED PONTA GROSSA", "mod": "Cooperativa Médica", "benef": 114041, "pool25": 0.14859999999999998, "pool": 0.1685, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/349712.png", "medal": "🚩"}, {"rank": 65, "codigo": "354031", "nome": "354031 - UNIMED SAO CARLOS", "mod": "Cooperativa Médica", "benef": 111404, "pool25": 0.129, "pool": 0.129, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/354031.png", "medal": ""}, {"rank": 66, "codigo": "326500", "nome": "326500 - SOBAM CENTRO MÉDICO HOSPITALAR S.A.", "mod": "Medicina de Grupo", "benef": 109084, "pool25": 0.1521, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/326500.png", "medal": ""}, {"rank": 67, "codigo": "331872", "nome": "331872 - UNIMED SJC", "mod": "Cooperativa Médica", "benef": 109021, "pool25": 0.1512, "pool": 0.148, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/331872.png", "medal": "⚠️"}, {"rank": 68, "codigo": "402966", "nome": "402966 - HAPVIDA NOTREDAME SAO PAULO", "mod": "Medicina de Grupo", "benef": 108731, "pool25": 0.152, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/402966.png", "medal": ""}, {"rank": 69, "codigo": "303356", "nome": "303356 - UNIMED LITORAL", "mod": "Cooperativa Médica", "benef": 105838, "pool25": 0.1366, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303356.png", "medal": ""}, {"rank": 70, "codigo": "337188", "nome": "337188 - UNIMED SUL MINEIRA", "mod": "Cooperativa Médica", "benef": 105330, "pool25": 0.0745, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/337188.png", "medal": ""}, {"rank": 71, "codigo": "370070", "nome": "370070 - UNIMED DE CASCAVEL", "mod": "Cooperativa Médica", "benef": 103985, "pool25": 0.121, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/370070.png", "medal": ""}, {"rank": 72, "codigo": "320706", "nome": "320706 - UNIMED SUL CAPIXABA", "mod": "Cooperativa Médica", "benef": 103534, "pool25": 0.10300000000000001, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/320706.png", "medal": ""}, {"rank": 73, "codigo": "369659", "nome": "369659 - UNIMED BAURU", "mod": "Cooperativa Médica", "benef": 103044, "pool25": 0.0933, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/369659.png", "medal": ""}, {"rank": 74, "codigo": "353353", "nome": "353353 - UNIMED TERESINA", "mod": "Cooperativa Médica", "benef": 102087, "pool25": 0.0993, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/353353.png", "medal": ""}, {"rank": 75, "codigo": "353663", "nome": "353663 - UNIMED NORTE DO MATO GROSSO", "mod": "Cooperativa Médica", "benef": 101332, "pool25": 0.0691, "pool": 0.0606, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/353663.png", "medal": ""}, {"rank": 76, "codigo": "302953", "nome": "302953 - UNIMED COSTA DO SOL", "mod": "Cooperativa Médica", "benef": 100251, "pool25": 0.1185, "pool": 0.0701, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/302953.png", "medal": ""}, {"rank": 77, "codigo": "354783", "nome": "354783 - UNIMED DE FRANCA", "mod": "Cooperativa Médica", "benef": 94189, "pool25": 0.119, "pool": 0.1146, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/354783.png", "medal": ""}, {"rank": 78, "codigo": "356417", "nome": "356417 - UNIMED (RS) VALE DO SINOS", "mod": "Cooperativa Médica", "benef": 92387, "pool25": 0.18530000000000002, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/356417.png", "medal": ""}, {"rank": 79, "codigo": "369292", "nome": "369292 - UNIMED DE SANTA BÁRBARA D'OESTE E AMERICANA - COOP DE TRABALHO M", "mod": "Cooperativa Médica", "benef": 91554, "pool25": 0.127, "pool": 0.1125, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/369292.png", "medal": ""}, {"rank": 80, "codigo": "336106", "nome": "336106 - UNIMED DE MARÍLIA", "mod": "Cooperativa Médica", "benef": 90843, "pool25": 0.0734, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/336106.png", "medal": ""}, {"rank": 81, "codigo": "364312", "nome": "364312 - UNIMED DE ARARAQUARA", "mod": "Cooperativa Médica", "benef": 89370, "pool25": 0.0883, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/364312.png", "medal": ""}, {"rank": 82, "codigo": "343731", "nome": "343731 - UNIMED LESTE FLUMINENSE", "mod": "Cooperativa Médica", "benef": 88654, "pool25": 0.11710000000000001, "pool": 0.1027, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/343731.png", "medal": ""}, {"rank": 83, "codigo": "329339", "nome": "329339 - UNIMED CRICIÚMA", "mod": "Cooperativa Médica", "benef": 84504, "pool25": 0.0931, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/329339.png", "medal": ""}, {"rank": 84, "codigo": "367087", "nome": "367087 - UNIMED RIO GRANDE DO SUL", "mod": "Cooperativa Médica", "benef": 80042, "pool25": 0.1408, "pool": 0.1298, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/367087.png", "medal": ""}, {"rank": 85, "codigo": "311847", "nome": "311847 - UNIMED BAIXA MOGIANA", "mod": "Cooperativa Médica", "benef": 79811, "pool25": 0.08439999999999999, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/311847.png", "medal": ""}, {"rank": 86, "codigo": "344800", "nome": "344800 - BLUE MED SAUDE", "mod": "Medicina de Grupo", "benef": 79308, "pool25": 0.1938, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/344800.png", "medal": ""}, {"rank": 87, "codigo": "417530", "nome": "417530 - SAÚDE BENEFICÊNCIA", "mod": "Medicina de Grupo", "benef": 76296, "pool25": 0.17329999999999998, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/417530.png", "medal": ""}, {"rank": 88, "codigo": "321958", "nome": "321958 - UNIMED DO CEARA", "mod": "Cooperativa Médica", "benef": 63354, "pool25": 0.1127, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/321958.png", "medal": ""}, {"rank": 89, "codigo": "356123", "nome": "356123 - UNIMED DO CARIRI", "mod": "Cooperativa Médica", "benef": 34763, "pool25": 0.1863, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/356123.png", "medal": ""}, {"rank": 90, "codigo": "303178", "nome": "303178 - UNIMED DE SOBRAL", "mod": "Cooperativa Médica", "benef": 14896, "pool25": 0.105, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/303178.png", "medal": ""}, {"rank": 91, "codigo": "421766", "nome": "421766 - BEST SAÚDE", "mod": "Medicina de Grupo", "benef": 13922, "pool25": 0.0691, "pool": null, "logo": "file:///C:/Users/Comptador/Desktop/PROJETO%20POOL%20DE%20RISCO%202026%20-%202027/logos/421766.png", "medal": ""}];
+    const OPERADORAS = [{"rank": 1, "codigo": "368253", "nome": "368253 - HAPVIDA", "mod": "Medicina de Grupo", "benef": 4375810, "pool25": 0.115, "pool": null, "logo": "logos/368253.png", "medal": ""}, {"rank": 2, "codigo": "005711", "nome": "005711 - BRADESCO SAUDE S.A.", "mod": "Seguradora", "benef": 3274484, "pool25": 0.15109999999999998, "pool": null, "logo": "logos/005711.png", "medal": ""}, {"rank": 3, "codigo": "359017", "nome": "359017 - HAPVIDA NOTREDAME SP/RJ", "mod": "Medicina de Grupo", "benef": 3208195, "pool25": 0.152, "pool": null, "logo": "logos/359017.png", "medal": ""}, {"rank": 4, "codigo": "326305", "nome": "326305 - AMIL", "mod": "Medicina de Grupo", "benef": 3066124, "pool25": 0.1598, "pool": null, "logo": "logos/326305.png", "medal": ""}, {"rank": 5, "codigo": "006246", "nome": "006246 - SUL AMERICA COMPANHIA DE SEGURO SAÚDE", "mod": "Seguradora", "benef": 2336660, "pool25": 0.1523, "pool": null, "logo": "logos/006246.png", "medal": ""}, {"rank": 6, "codigo": "339679", "nome": "339679 - UNIMED NACIONAL", "mod": "Cooperativa Médica", "benef": 1769159, "pool25": 0.195, "pool": 0.103, "logo": "logos/339679.png", "medal": ""}, {"rank": 7, "codigo": "343889", "nome": "343889 - UNIMED BH", "mod": "Cooperativa Médica", "benef": 1622695, "pool25": 0.0691, "pool": null, "logo": "logos/343889.png", "medal": ""}, {"rank": 8, "codigo": "000701", "nome": "000701 - SEGUROS UNIMED", "mod": "Seguradora", "benef": 956114, "pool25": 0.1192, "pool": null, "logo": "logos/000701.png", "medal": ""}, {"rank": 9, "codigo": "416428", "nome": "416428 - SUL AMÉRICA PARANÁ CLÍNICAS SERVIÇOS DE SAÚDE S.A.", "mod": "Medicina de Grupo", "benef": 819532, "pool25": 0.1561, "pool": null, "logo": "logos/416428.png", "medal": ""}, {"rank": 10, "codigo": "000582", "nome": "000582 - PORTO SEGURO SAÚDE", "mod": "Seguradora", "benef": 803451, "pool25": 0.15869999999999998, "pool": null, "logo": "logos/000582.png", "medal": ""}, {"rank": 11, "codigo": "304701", "nome": "304701 - UNIMED CURITIBA - SOCIEDADE COOPERATIVA DE MÉDICOS", "mod": "Cooperativa Médica", "benef": 663512, "pool25": 0.0691, "pool": null, "logo": "logos/304701.png", "medal": ""}, {"rank": 12, "codigo": "335690", "nome": "335690 - UNIMED CAMPINAS", "mod": "Cooperativa Médica", "benef": 561812, "pool25": 0.125, "pool": 0.068, "logo": "logos/335690.png", "medal": ""}, {"rank": 13, "codigo": "302147", "nome": "302147 - PREVENT SENIOR", "mod": "Medicina de Grupo", "benef": 546190, "pool25": 0.3434, "pool": 0.0, "logo": "logos/302147.png", "medal": "🥇"}, {"rank": 14, "codigo": "309222", "nome": "309222 - ASSIM SAÚDE", "mod": "Medicina de Grupo", "benef": 480784, "pool25": 0.1559, "pool": null, "logo": "logos/309222.png", "medal": ""}, {"rank": 15, "codigo": "348520", "nome": "348520 - HAPVIDA MINAS GERAIS", "mod": "Medicina de Grupo", "benef": 465360, "pool25": 0.152, "pool": null, "logo": "logos/348520.png", "medal": ""}, {"rank": 16, "codigo": "357391", "nome": "357391 - UNIMED VITORIA", "mod": "Cooperativa Médica", "benef": 424892, "pool25": 0.0998, "pool": 0.0983, "logo": "logos/357391.png", "medal": ""}, {"rank": 17, "codigo": "342033", "nome": "342033 - SAMP", "mod": "Medicina de Grupo", "benef": 424776, "pool25": 0.129, "pool": 0.0948, "logo": "logos/342033.png", "medal": ""}, {"rank": 18, "codigo": "382876", "nome": "382876 - UNIMED GOIANIA", "mod": "Cooperativa Médica", "benef": 384934, "pool25": 0.1139, "pool": null, "logo": "logos/382876.png", "medal": ""}, {"rank": 19, "codigo": "319996", "nome": "319996 - FEDERAÇÃO DAS UNIMEDS DO ESTADO DE SÃO PAULO", "mod": "Cooperativa Médica", "benef": 376854, "pool25": 0.4317, "pool": 0.3134, "logo": "logos/319996.png", "medal": "🚨"}, {"rank": 20, "codigo": "317144", "nome": "317144 - UNIMED DE FORTALEZA", "mod": "Cooperativa Médica", "benef": 362392, "pool25": 0.1492, "pool": 0.1274, "logo": "logos/317144.png", "medal": ""}, {"rank": 21, "codigo": "357511", "nome": "357511 - HUMANA SAUDE", "mod": "Medicina de Grupo", "benef": 292110, "pool25": 0.179, "pool": 0.1424, "logo": "logos/357511.png", "medal": ""}, {"rank": 22, "codigo": "312363", "nome": "312363 - UNIMED FERJ", "mod": "Cooperativa Médica", "benef": 277087, "pool25": 0.1558, "pool": null, "logo": "logos/312363.png", "medal": ""}, {"rank": 23, "codigo": "335100", "nome": "335100 - UNIMED SAO JOSÉ DO RIO PRETO", "mod": "Cooperativa Médica", "benef": 273147, "pool25": 0.095, "pool": 0.0918, "logo": "logos/335100.png", "medal": ""}, {"rank": 24, "codigo": "335614", "nome": "335614 - MEDSENIOR", "mod": "Medicina de Grupo", "benef": 272294, "pool25": 0.0745, "pool": null, "logo": "logos/335614.png", "medal": ""}, {"rank": 25, "codigo": "340782", "nome": "340782 - HAPVIDA CLINIPAM PARANA", "mod": "Medicina de Grupo", "benef": 249235, "pool25": 0.115, "pool": null, "logo": "logos/340782.png", "medal": ""}, {"rank": 26, "codigo": "303976", "nome": "303976 - UNIMED BELÉM", "mod": "Cooperativa Médica", "benef": 240721, "pool25": 0.1536, "pool": null, "logo": "logos/303976.png", "medal": ""}, {"rank": 27, "codigo": "325571", "nome": "325571 - UNIMED SERRA GAUCHA", "mod": "Cooperativa Médica", "benef": 235458, "pool25": 0.0719, "pool": 0.0658, "logo": "logos/325571.png", "medal": ""}, {"rank": 28, "codigo": "319121", "nome": "319121 - UNIMED DIVINOPOLIS", "mod": "Cooperativa Médica", "benef": 220263, "pool25": 0.0661, "pool": null, "logo": "logos/319121.png", "medal": ""}, {"rank": 29, "codigo": "343269", "nome": "343269 - UNIMED DE LONDRINA", "mod": "Cooperativa Médica", "benef": 214547, "pool25": 0.125, "pool": null, "logo": "logos/343269.png", "medal": ""}, {"rank": 30, "codigo": "312720", "nome": "312720 - UNIMED PARANÁ", "mod": "Cooperativa Médica", "benef": 205250, "pool25": 0.0654, "pool": null, "logo": "logos/312720.png", "medal": ""}, {"rank": 31, "codigo": "342084", "nome": "342084 - UNIMED CUIABÁ", "mod": "Cooperativa Médica", "benef": 199908, "pool25": 0.0751, "pool": 0.0723, "logo": "logos/342084.png", "medal": ""}, {"rank": 32, "codigo": "344885", "nome": "344885 - UNIMED RECIFE COOPERATIVA DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 195485, "pool25": 0.0653, "pool": null, "logo": "logos/344885.png", "medal": ""}, {"rank": 33, "codigo": "335592", "nome": "335592 - UNIMED NATAL SOCIEDADE COOPERATIVA DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 195439, "pool25": 0.0691, "pool": null, "logo": "logos/335592.png", "medal": ""}, {"rank": 34, "codigo": "360449", "nome": "360449 - UNIMED GRANDE FLORIANÓPOLIS", "mod": "Cooperativa Médica", "benef": 194824, "pool25": 0.20679999999999998, "pool": null, "logo": "logos/360449.png", "medal": ""}, {"rank": 35, "codigo": "355097", "nome": "355097 - SANTA HELENA SAÚDE", "mod": "Medicina de Grupo", "benef": 188015, "pool25": 0.1752, "pool": null, "logo": "logos/355097.png", "medal": ""}, {"rank": 36, "codigo": "321044", "nome": "321044 - UNIMED JOAO PESSOA", "mod": "Cooperativa Médica", "benef": 180294, "pool25": 0.1304, "pool": 0.1353, "logo": "logos/321044.png", "medal": ""}, {"rank": 37, "codigo": "351202", "nome": "351202 - UNIMED DE RIBEIRAO PRETO", "mod": "Cooperativa Médica", "benef": 172716, "pool25": 0.1072, "pool": null, "logo": "logos/351202.png", "medal": ""}, {"rank": 38, "codigo": "306398", "nome": "306398 - UNIMED - COOPERATIVA DE SERVIÇOS DE SAÚDE DOS VALES DO TAQUARI E RIO PARDO LTDA.", "mod": "Cooperativa Médica", "benef": 169943, "pool25": 0.1562, "pool": null, "logo": "logos/306398.png", "medal": ""}, {"rank": 39, "codigo": "355691", "nome": "355691 - UNIMED SANTA CATARINA", "mod": "Cooperativa Médica", "benef": 169589, "pool25": 0.0862, "pool": null, "logo": "logos/355691.png", "medal": ""}, {"rank": 40, "codigo": "371254", "nome": "371254 - UNIMED REGIONAL MARINGÁ COOP.DE TRABALHO MÉDICO", "mod": "Cooperativa Médica", "benef": 168662, "pool25": 0.086, "pool": null, "logo": "logos/371254.png", "medal": ""}, {"rank": 41, "codigo": "348295", "nome": "348295 - UNIMED SOROCABA", "mod": "Cooperativa Médica", "benef": 166087, "pool25": 0.1467, "pool": 0.0567, "logo": "logos/348295.png", "medal": "🥉"}, {"rank": 42, "codigo": "355721", "nome": "355721 - UNIMED DE SANTOS COOP DE TRAB MEDICO", "mod": "Cooperativa Médica", "benef": 161270, "pool25": 0.1084, "pool": null, "logo": "logos/355721.png", "medal": ""}, {"rank": 43, "codigo": "315729", "nome": "315729 - UNIMED DE PIRACICABA", "mod": "Cooperativa Médica", "benef": 156695, "pool25": 0.1284, "pool": 0.1448, "logo": "logos/315729.png", "medal": ""}, {"rank": 44, "codigo": "367095", "nome": "367095 - SAMEL", "mod": "Medicina de Grupo", "benef": 149521, "pool25": 0.0978, "pool": null, "logo": "logos/367095.png", "medal": ""}, {"rank": 45, "codigo": "349682", "nome": "349682 - DOCTOR CLIN", "mod": "Medicina de Grupo", "benef": 147474, "pool25": 0.1036, "pool": null, "logo": "logos/349682.png", "medal": ""}, {"rank": 46, "codigo": "379956", "nome": "379956 - CARE PLUS MEDICINA ASSISTENCIAL LTDA.", "mod": "Medicina de Grupo", "benef": 144001, "pool25": 0.1818, "pool": null, "logo": "logos/379956.png", "medal": ""}, {"rank": 47, "codigo": "314218", "nome": "314218 - ASSOCIAÇÃO DE BENEFICÊNCIA E FILANTROPIA SÃO CRISTOVÃO", "mod": "Filantropia", "benef": 141653, "pool25": 0.0691, "pool": null, "logo": "logos/314218.png", "medal": ""}, {"rank": 48, "codigo": "327689", "nome": "327689 - UNIMED MACEIÓ COOPERATIVA DE TRABALHO MEDICO", "mod": "Cooperativa Médica", "benef": 139916, "pool25": 0.0707, "pool": 0.09, "logo": "logos/327689.png", "medal": ""}, {"rank": 49, "codigo": "384577", "nome": "384577 - UNIMED UBERLÂNDIA", "mod": "Cooperativa Médica", "benef": 138129, "pool25": 0.1142, "pool": null, "logo": "logos/384577.png", "medal": ""}, {"rank": 50, "codigo": "422029", "nome": "422029 - KLINI", "mod": "Medicina de Grupo", "benef": 138042, "pool25": 0.0, "pool": null, "logo": "logos/422029.png", "medal": ""}, {"rank": 51, "codigo": "348180", "nome": "348180 - HUMANA SAÚDE", "mod": "Medicina de Grupo", "benef": 136879, "pool25": 0.14800000000000002, "pool": 0.1424, "logo": "logos/348180.png", "medal": ""}, {"rank": 52, "codigo": "348830", "nome": "348830 - PLENA SAÚDE", "mod": "Medicina de Grupo", "benef": 134997, "pool25": 0.14529999999999998, "pool": 0.0723, "logo": "logos/348830.png", "medal": ""}, {"rank": 53, "codigo": "306886", "nome": "306886 - UNIMED JUIZ DE FORA COOPERATIVA DE TRABALHO MEDICO LTDA", "mod": "Cooperativa Médica", "benef": 129757, "pool25": 0.1192, "pool": 0.042, "logo": "logos/306886.png", "medal": "🥈"}, {"rank": 54, "codigo": "334561", "nome": "334561 - UNIMED BLUMENAU", "mod": "Cooperativa Médica", "benef": 128777, "pool25": 0.08560000000000001, "pool": 0.0938, "logo": "logos/334561.png", "medal": ""}, {"rank": 55, "codigo": "303623", "nome": "303623 - CENTRO TRASMONTANO DE SAO PAULO", "mod": "Medicina de Grupo", "benef": 128634, "pool25": 0.0933, "pool": null, "logo": "logos/303623.png", "medal": ""}, {"rank": 56, "codigo": "392804", "nome": "392804 - HAPVIDA RIO GRANDE DO SUL", "mod": "Medicina de Grupo", "benef": 128491, "pool25": 0.115, "pool": null, "logo": "logos/392804.png", "medal": ""}, {"rank": 57, "codigo": "312851", "nome": "312851 - UNIMED CAMPO GRANDE", "mod": "Cooperativa Médica", "benef": 126832, "pool25": 0.0885, "pool": 0.0698, "logo": "logos/312851.png", "medal": ""}, {"rank": 58, "codigo": "418170", "nome": "418170 - QUALLITY PRÓ SAÚDE", "mod": "Medicina de Grupo", "benef": 125096, "pool25": 0.0699, "pool": 0.0976, "logo": "logos/418170.png", "medal": ""}, {"rank": 59, "codigo": "321273", "nome": "321273 - UNIMED DE JOINVILLE", "mod": "Cooperativa Médica", "benef": 121659, "pool25": 0.0675, "pool": null, "logo": "logos/321273.png", "medal": ""}, {"rank": 60, "codigo": "354066", "nome": "354066 - UNIMED UBERABA LTDA.", "mod": "Cooperativa Médica", "benef": 120371, "pool25": 0.07339999999999999, "pool": null, "logo": "logos/354066.png", "medal": ""}, {"rank": 61, "codigo": "418021", "nome": "418021 - PLANO SANTA SAÚDE", "mod": "Medicina de Grupo", "benef": 117709, "pool25": 0.14, "pool": null, "logo": "logos/418021.png", "medal": ""}, {"rank": 62, "codigo": "315796", "nome": "315796 - UNIMED DE PRESIDENTE PRUDENTE", "mod": "Cooperativa Médica", "benef": 117190, "pool25": 0.1317, "pool": 0.1027, "logo": "logos/315796.png", "medal": ""}, {"rank": 63, "codigo": "303267", "nome": "303267 - UNIMED JUNDIAÍ", "mod": "Cooperativa Médica", "benef": 114044, "pool25": 0.15810000000000002, "pool": 0.136, "logo": "logos/303267.png", "medal": ""}, {"rank": 64, "codigo": "349712", "nome": "349712 - UNIMED PONTA GROSSA", "mod": "Cooperativa Médica", "benef": 114041, "pool25": 0.14859999999999998, "pool": 0.1685, "logo": "logos/349712.png", "medal": "🚩"}, {"rank": 65, "codigo": "354031", "nome": "354031 - UNIMED SAO CARLOS", "mod": "Cooperativa Médica", "benef": 111404, "pool25": 0.129, "pool": 0.129, "logo": "logos/354031.png", "medal": ""}, {"rank": 66, "codigo": "326500", "nome": "326500 - SOBAM CENTRO MÉDICO HOSPITALAR S.A.", "mod": "Medicina de Grupo", "benef": 109084, "pool25": 0.1521, "pool": null, "logo": "logos/326500.png", "medal": ""}, {"rank": 67, "codigo": "331872", "nome": "331872 - UNIMED SJC", "mod": "Cooperativa Médica", "benef": 109021, "pool25": 0.1512, "pool": 0.148, "logo": "logos/331872.png", "medal": "⚠️"}, {"rank": 68, "codigo": "402966", "nome": "402966 - HAPVIDA NOTREDAME SAO PAULO", "mod": "Medicina de Grupo", "benef": 108731, "pool25": 0.152, "pool": null, "logo": "logos/402966.png", "medal": ""}, {"rank": 69, "codigo": "303356", "nome": "303356 - UNIMED LITORAL", "mod": "Cooperativa Médica", "benef": 105838, "pool25": 0.1366, "pool": null, "logo": "logos/303356.png", "medal": ""}, {"rank": 70, "codigo": "337188", "nome": "337188 - UNIMED SUL MINEIRA", "mod": "Cooperativa Médica", "benef": 105330, "pool25": 0.0745, "pool": null, "logo": "logos/337188.png", "medal": ""}, {"rank": 71, "codigo": "370070", "nome": "370070 - UNIMED DE CASCAVEL", "mod": "Cooperativa Médica", "benef": 103985, "pool25": 0.121, "pool": null, "logo": "logos/370070.png", "medal": ""}, {"rank": 72, "codigo": "320706", "nome": "320706 - UNIMED SUL CAPIXABA", "mod": "Cooperativa Médica", "benef": 103534, "pool25": 0.10300000000000001, "pool": null, "logo": "logos/320706.png", "medal": ""}, {"rank": 73, "codigo": "369659", "nome": "369659 - UNIMED BAURU", "mod": "Cooperativa Médica", "benef": 103044, "pool25": 0.0933, "pool": null, "logo": "logos/369659.png", "medal": ""}, {"rank": 74, "codigo": "353353", "nome": "353353 - UNIMED TERESINA", "mod": "Cooperativa Médica", "benef": 102087, "pool25": 0.0993, "pool": null, "logo": "logos/353353.png", "medal": ""}, {"rank": 75, "codigo": "353663", "nome": "353663 - UNIMED NORTE DO MATO GROSSO", "mod": "Cooperativa Médica", "benef": 101332, "pool25": 0.0691, "pool": 0.0606, "logo": "logos/353663.png", "medal": ""}, {"rank": 76, "codigo": "302953", "nome": "302953 - UNIMED COSTA DO SOL", "mod": "Cooperativa Médica", "benef": 100251, "pool25": 0.1185, "pool": 0.0701, "logo": "logos/302953.png", "medal": ""}, {"rank": 77, "codigo": "354783", "nome": "354783 - UNIMED DE FRANCA", "mod": "Cooperativa Médica", "benef": 94189, "pool25": 0.119, "pool": 0.1146, "logo": "logos/354783.png", "medal": ""}, {"rank": 78, "codigo": "356417", "nome": "356417 - UNIMED (RS) VALE DO SINOS", "mod": "Cooperativa Médica", "benef": 92387, "pool25": 0.18530000000000002, "pool": null, "logo": "logos/356417.png", "medal": ""}, {"rank": 79, "codigo": "369292", "nome": "369292 - UNIMED DE SANTA BÁRBARA D'OESTE E AMERICANA - COOP DE TRABALHO M", "mod": "Cooperativa Médica", "benef": 91554, "pool25": 0.127, "pool": 0.1125, "logo": "logos/369292.png", "medal": ""}, {"rank": 80, "codigo": "336106", "nome": "336106 - UNIMED DE MARÍLIA", "mod": "Cooperativa Médica", "benef": 90843, "pool25": 0.0734, "pool": null, "logo": "logos/336106.png", "medal": ""}, {"rank": 81, "codigo": "364312", "nome": "364312 - UNIMED DE ARARAQUARA", "mod": "Cooperativa Médica", "benef": 89370, "pool25": 0.0883, "pool": null, "logo": "logos/364312.png", "medal": ""}, {"rank": 82, "codigo": "343731", "nome": "343731 - UNIMED LESTE FLUMINENSE", "mod": "Cooperativa Médica", "benef": 88654, "pool25": 0.11710000000000001, "pool": 0.1027, "logo": "logos/343731.png", "medal": ""}, {"rank": 83, "codigo": "329339", "nome": "329339 - UNIMED CRICIÚMA", "mod": "Cooperativa Médica", "benef": 84504, "pool25": 0.0931, "pool": null, "logo": "logos/329339.png", "medal": ""}, {"rank": 84, "codigo": "367087", "nome": "367087 - UNIMED RIO GRANDE DO SUL", "mod": "Cooperativa Médica", "benef": 80042, "pool25": 0.1408, "pool": 0.1298, "logo": "logos/367087.png", "medal": ""}, {"rank": 85, "codigo": "311847", "nome": "311847 - UNIMED BAIXA MOGIANA", "mod": "Cooperativa Médica", "benef": 79811, "pool25": 0.08439999999999999, "pool": null, "logo": "logos/311847.png", "medal": ""}, {"rank": 86, "codigo": "344800", "nome": "344800 - BLUE MED SAUDE", "mod": "Medicina de Grupo", "benef": 79308, "pool25": 0.1938, "pool": null, "logo": "logos/344800.png", "medal": ""}, {"rank": 87, "codigo": "417530", "nome": "417530 - SAÚDE BENEFICÊNCIA", "mod": "Medicina de Grupo", "benef": 76296, "pool25": 0.17329999999999998, "pool": null, "logo": "logos/417530.png", "medal": ""}, {"rank": 88, "codigo": "321958", "nome": "321958 - UNIMED DO CEARA", "mod": "Cooperativa Médica", "benef": 63354, "pool25": 0.1127, "pool": 0.1246, "logo": "logos/321958.png", "medal": ""}, {"rank": 89, "codigo": "356123", "nome": "356123 - UNIMED DO CARIRI", "mod": "Cooperativa Médica", "benef": 34763, "pool25": 0.1863, "pool": 0.0606, "logo": "logos/356123.png", "medal": ""}, {"rank": 90, "codigo": "303178", "nome": "303178 - UNIMED DE SOBRAL", "mod": "Cooperativa Médica", "benef": 14896, "pool25": 0.105, "pool": 0.104, "logo": "logos/303178.png", "medal": ""}, {"rank": 91, "codigo": "421766", "nome": "421766 - BEST SAÚDE", "mod": "Medicina de Grupo", "benef": 13922, "pool25": 0.0691, "pool": null, "logo": "logos/421766.png", "medal": ""}];
 
     const TOTAL = OPERADORAS.length;
     document.getElementById('count-total').textContent = TOTAL;
@@ -1138,9 +1390,73 @@
 
     /* ─── Máximos pré-calculados para normalização das barras ── */
     const MAX_POOL = Math.max(1e-9, ...OPERADORAS.filter(o => o.pool != null).map(o => o.pool));
+    const MAX_BENEF = Math.max(1000, ...OPERADORAS.map(o => o.benef || 0));
+
+    /* ─── Setup Range Slider Beneficiários (Escala Exponencial) ── */
+    const benefMinEl = document.getElementById('benef-min');
+    const benefMaxEl = document.getElementById('benef-max');
+    const benefValMin = document.getElementById('benef-val-min');
+    const benefValMax = document.getElementById('benef-val-max');
+    const benefFill = document.getElementById('benef-fill');
+    
+    // Arredonda para cima o máx de milhares (ex: 4375810 -> 4376000)
+    const upperLimit = Math.ceil(MAX_BENEF / 1000) * 1000;
+    
+    const SLIDER_MAX = 10000;
+    const POWER = 3; // Curva cúbica para alta precisão nos menores
+    const posToVal = (pos) => Math.round(Math.pow(pos / SLIDER_MAX, POWER) * upperLimit);
+    const valToPos = (val) => Math.pow(val / upperLimit, 1 / POWER) * SLIDER_MAX;
+
+    benefMinEl.max = SLIDER_MAX;
+    benefMaxEl.max = SLIDER_MAX;
+    benefMinEl.value = 0;
+    benefMaxEl.value = SLIDER_MAX;
+
+    const updateSliderUI = () => {
+      let pMin = parseInt(benefMinEl.value, 10);
+      let pMax = parseInt(benefMaxEl.value, 10);
+      if (pMin > pMax) { [pMin, pMax] = [pMax, pMin]; }
+      
+      const pctMin = (pMin / SLIDER_MAX) * 100;
+      const pctMax = (pMax / SLIDER_MAX) * 100;
+      
+      benefFill.style.left = `${pctMin}%`;
+      benefFill.style.width = `${pctMax - pctMin}%`;
+      
+      const vMin = posToVal(pMin);
+      const vMax = posToVal(pMax);
+
+      if (document.activeElement !== benefValMin) {
+        benefValMin.value = pMin === 0 ? '0' : vMin.toLocaleString('pt-BR');
+      }
+      if (document.activeElement !== benefValMax) {
+        benefValMax.value = pMax >= SLIDER_MAX ? 'Máx' : vMax.toLocaleString('pt-BR');
+      }
+    };
+    updateSliderUI();
+
+
+    /* ─── Favoritos salvos ───────────────────────────────────── */
+    const getSavedFavs = () => {
+      try {
+        const stored = localStorage.getItem('riskPoolFavs');
+        return stored ? new Set(JSON.parse(stored)) : new Set();
+      } catch (e) { return new Set(); }
+    };
+    const favorites = getSavedFavs();
+    const saveFavs = () => localStorage.setItem('riskPoolFavs', JSON.stringify([...favorites]));
 
     /* ─── Estado ─────────────────────────────────────────────── */
-    const state = { query: '', modFilter: 'todos', sortCol: 'rank', sortAsc: true, onlyPool: false };
+    const state = { 
+      query: '', 
+      modFilter: 'todos', 
+      sortCol: 'rank', 
+      sortAsc: true, 
+      onlyPool: false,
+      onlyFav: false,
+      benefMin: null,
+      benefMax: null
+    };
 
     /* ─── Helpers ─────────────────────────────────────────────── */
     const fmt = (n) => n.toLocaleString('pt-BR');
@@ -1176,11 +1492,14 @@
       const mediaOf = (o) => (o.pool25 != null && o.pool != null) ? (o.pool25 + o.pool) / 2 : null;
 
       return OPERADORAS
-        .filter(({ codigo, nome, mod, pool }) => {
+        .filter(({ codigo, nome, mod, pool, benef }) => {
           const nomeLower = nome.toLowerCase();
-          if (terms.length > 0 && !terms.every(t => nomeLower.includes(t))) return false;
+          if (terms.length > 0 && !terms.every(t => nomeLower.includes(t) || codigo.includes(t))) return false;
           if (state.modFilter !== 'todos' && !mod.toLowerCase().includes(state.modFilter.toLowerCase())) return false;
           if (state.onlyPool && pool == null) return false;
+          if (state.onlyFav && !favorites.has(codigo)) return false;
+          if (state.benefMin !== null && benef < state.benefMin) return false;
+          if (state.benefMax !== null && benef > state.benefMax) return false;
           return true;
         })
         .sort((a, b) => {
@@ -1231,10 +1550,14 @@
             ? `<img class="op-logo" src="${logo}" alt="${nome}" loading="lazy" onerror="this.style.display='none';">`
             : '';
 
+          const isFav = favorites.has(codigo);
+          const favIcon = `<button class="fav-btn ${isFav ? 'active' : ''}" data-fav="${codigo}" aria-label="Favoritar ${nome}" title="Marcar como favorito">★</button>`;
+
           tr.innerHTML = `
           <td data-label="Rank" class="rank">${rank}</td>
           <td data-label="Operadora" class="operadora">
             <div class="op-wrap">
+              ${favIcon}
               ${logoHtml}
               <span class="op-name">${hl(key, q)}</span>
             </div>
@@ -1298,21 +1621,100 @@
       });
     });
 
-    /* ─── Busca ───────────────────────────────────────────────── */
+    /* ─── Interações da Tabela (Favoritos) ────────────────────── */
+    tbody.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-fav]');
+      if (btn) {
+        const codigo = btn.dataset.fav;
+        if (favorites.has(codigo)) {
+          favorites.delete(codigo);
+          btn.classList.remove('active');
+        } else {
+          favorites.add(codigo);
+          btn.classList.add('active');
+        }
+        saveFavs();
+        
+        // Se filtro de favoritos estiver ativo, remove e-renderiza
+        if (state.onlyFav && !favorites.has(codigo)) {
+          render();
+        }
+      }
+    });
+
+    /* ─── Busca e Range ───────────────────────────────────────── */
     let debounce;
     document.getElementById('search-input').addEventListener('input', ({ target }) => {
       clearTimeout(debounce);
       debounce = setTimeout(() => { state.query = target.value.trim(); render(); }, 200);
     });
 
+    const triggerRangeUpdate = () => {
+      let p1 = parseInt(benefMinEl.value, 10);
+      let p2 = parseInt(benefMaxEl.value, 10);
+      let pMin = Math.min(p1, p2);
+      let pMax = Math.max(p1, p2);
+      
+      state.benefMin = pMin > 0 ? posToVal(pMin) : null;
+      state.benefMax = pMax < SLIDER_MAX ? posToVal(pMax) : null;
+      render();
+    };
 
+    ['benef-min', 'benef-max'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        updateSliderUI();
+        clearTimeout(debounce);
+        debounce = setTimeout(triggerRangeUpdate, 50);
+      });
+    });
+
+    /* Interagindo com os inputs de texto numérico */
+    const parseNum = (str) => {
+      if (/max|máx/i.test(str)) return upperLimit;
+      return parseInt(str.replace(/\D/g, ''), 10) || 0;
+    };
+    
+    const handleTextInput = (el, isMax) => {
+      let val = parseNum(el.value);
+      val = Math.max(0, Math.min(val, upperLimit));
+      
+      const targetPos = Math.round(valToPos(val));
+      if (isMax) benefMaxEl.value = targetPos;
+      else benefMinEl.value = targetPos;
+      
+      updateSliderUI();
+      clearTimeout(debounce);
+      debounce = setTimeout(triggerRangeUpdate, 500);
+    };
+
+    ['benef-val-min', 'benef-val-max'].forEach(id => {
+      const el = document.getElementById(id);
+      const isMax = id === 'benef-val-max';
+      
+      el.addEventListener('input', () => handleTextInput(el, isMax));
+      
+      el.addEventListener('blur', () => {
+        handleTextInput(el, isMax); // assegura formatar na saída
+        updateSliderUI();
+        triggerRangeUpdate();
+      });
+      
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') el.blur();
+      });
+    });
 
     /* ─── Reset ───────────────────────────────────────────────── */
     document.getElementById('btn-reset').addEventListener('click', () => {
-      state.query = ''; state.modFilter = 'todos'; state.onlyPool = false;
+      state.query = ''; state.modFilter = 'todos'; state.onlyPool = false; state.onlyFav = false;
       state.sortCol = 'rank'; state.sortAsc = true;
+      state.benefMin = null; state.benefMax = null;
       document.getElementById('search-input').value = '';
+      benefMinEl.value = 0;
+      benefMaxEl.value = SLIDER_MAX;
+      updateSliderUI();
       document.getElementById('btn-filter-pool').classList.remove('active');
+      document.getElementById('btn-filter-fav').classList.remove('active');
       document.querySelectorAll('thead th[data-col]').forEach((h) => h.classList.remove('sort-asc', 'sort-desc'));
       document.getElementById('th-rank').classList.add('sort-asc');
       document.querySelectorAll('.legend-item').forEach((el) => el.classList.remove('active'));
@@ -1330,11 +1732,53 @@
       render();
     });
 
-    /* ─── Filtro Somente Pool ─────────────────────────────────── */
+    /* ─── Filtro Somente Pool e Favoritos ─────────────────────── */
     document.getElementById('btn-filter-pool').addEventListener('click', ({ target }) => {
       state.onlyPool = !state.onlyPool;
       target.classList.toggle('active', state.onlyPool);
       render();
+    });
+
+    document.getElementById('btn-filter-fav').addEventListener('click', ({ target }) => {
+      state.onlyFav = !state.onlyFav;
+      target.classList.toggle('active', state.onlyFav);
+      render();
+    });
+
+    /* ─── Eventos do Modal Limpar Favoritos ───────────────────── */
+    const modalClearFav = document.getElementById('modal-clear-fav');
+
+    document.getElementById('btn-clear-fav').addEventListener('click', () => {
+      if (favorites.size === 0) return; // Nada a limpar
+      modalClearFav.showModal();
+    });
+
+    document.getElementById('btn-cancel-clear').addEventListener('click', () => {
+      modalClearFav.close();
+    });
+
+    document.getElementById('btn-confirm-clear').addEventListener('click', () => {
+      favorites.clear();
+      saveFavs();
+      modalClearFav.close();
+      
+      // Remove visualmente as classes active
+      document.querySelectorAll('.fav-btn.active').forEach(btn => btn.classList.remove('active'));
+      
+      if (state.onlyFav) {
+        state.onlyFav = false;
+        document.getElementById('btn-filter-fav').classList.remove('active');
+        render();
+      }
+    });
+
+    // Fechar se clicar fora do modal
+    modalClearFav.addEventListener('click', (e) => {
+      const rect = modalClearFav.getBoundingClientRect();
+      const inDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height && rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+      if (!inDialog) {
+        modalClearFav.close();
+      }
     });
 
     /* ─── Modo Escuro ─────────────────────────────────────────── */
@@ -1357,7 +1801,118 @@
       updateThemeIcon();
     });
 
-    /* ─── Init ────────────────────────────────────────────────── */
+    /* ─── Exportar PDF — janela limpa dedicada ──────────────── */
+    const buildPrintHTML = (data) => {
+      const now = new Date().toLocaleString('pt-BR');
+      const fmtPct = (v) => v != null ? (v * 100).toFixed(2).replace('.', ',') + '%' : '—';
+      const fmtN  = (n) => n.toLocaleString('pt-BR');
+      const barCol = (v) => v * 100 <= 8 ? '#2E8B57' : v * 100 <= 15 ? '#E0962E' : '#C0392B';
+      const modColor = {
+        'Medicina de Grupo': '#2E5C8A',
+        'Cooperativa Médica': '#3F8A56',
+        'Seguradora': '#C68A3A',
+        'Filantropia': '#B5424A',
+      };
+
+      const rows = data.map((op, idx) => {
+        const { rank, nome, mod, benef, pool25 = null, pool = null, logo = '', medal = '' } = op;
+        const acum  = (pool25 != null && pool != null) ? (1 + pool25) * (1 + pool) - 1 : null;
+        const media = (pool25 != null && pool != null) ? (pool25 + pool) / 2 : null;
+        const bc    = modColor[mod] || '#888';
+        const bg    = idx % 2 === 1 ? '#f5f8f8' : '#fff';
+        const logoHtml = logo
+          ? `<img src="${logo}" style="height:20px;width:auto;max-width:32px;object-fit:contain;vertical-align:middle;margin-right:4px;border-radius:3px;flex-shrink:0;">`
+          : '';
+        const poolHtml = pool != null
+          ? `<div style="display:flex;align-items:center;gap:5px">
+               <span style="font-weight:700;min-width:48px;white-space:nowrap">${fmtPct(pool)} ${medal}</span>
+               <div style="flex:1;height:6px;background:#dde2e2;border-radius:3px;overflow:hidden">
+                 <div style="width:${Math.min(pool/MAX_POOL*100,100).toFixed(1)}%;height:100%;background:${barCol(pool)};border-radius:3px"></div>
+               </div>
+             </div>`
+          : '<span style="color:#bbb">—</span>';
+        return `<tr style="background:${bg}">
+          <td style="text-align:center;color:#888;font-size:10px;padding:.28rem .4rem">${rank}</td>
+          <td style="padding:.28rem .45rem;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:5px;min-width:0">
+              ${logoHtml}
+              <span style="overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.25;font-size:11px">${nome}</span>
+            </div>
+          </td>
+          <td style="padding:.28rem .45rem">
+            <span style="background:${bc};color:#fff;padding:.15rem .42rem;border-radius:2rem;font-size:8.5px;white-space:nowrap;display:inline-block;-webkit-print-color-adjust:exact;print-color-adjust:exact">${mod}</span>
+          </td>
+          <td style="text-align:right;padding:.28rem .45rem;font-variant-numeric:tabular-nums">${fmtN(benef)}</td>
+          <td style="padding:.28rem .45rem">${poolHtml}</td>
+          <td style="padding:.28rem .45rem;font-variant-numeric:tabular-nums">${fmtPct(pool25)}</td>
+          <td style="padding:.28rem .45rem;font-variant-numeric:tabular-nums">${fmtPct(acum)}</td>
+          <td style="padding:.28rem .45rem;font-variant-numeric:tabular-nums">${fmtPct(media)}</td>
+        </tr>`;
+      }).join('');
+
+      return `<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<base href="${window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1)}">
+<title>Pool de Risco 2026-2027</title>
+<style>
+  @page { size: A4 landscape; margin: 1cm 1.5cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; color: #111; background: #fff; font-size: 11px; }
+  header { text-align: center; padding: .4rem 0 .35rem; border-bottom: 2px solid #2A6B6E; margin-bottom: .35rem; }
+  header p.brand { font-size: .62rem; letter-spacing: .2rem; text-transform: uppercase; color: #2A6B6E; font-weight: 700; }
+  header h1 { font-size: 1.35rem; color: #15323b; letter-spacing: -.02em; font-weight: 700; }
+  header p.sub { font-size: .72rem; color: #5a6a72; margin-top: .1rem; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 11px; }
+  col.r  { width: 28px; }
+  col.o  { width: auto; }
+  col.m  { width: 100px; }
+  col.b  { width: 88px; }
+  col.p  { width: 145px; }
+  col.p2 { width: 60px; }
+  col.ac { width: 60px; }
+  col.me { width: 60px; }
+  thead th { background: #2A6B6E; color: #fff; padding: .3rem .45rem; font-size: 9.5px; text-align: left; white-space: nowrap; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  thead th.r { text-align: center; }
+  thead th.num { text-align: right; }
+  tbody td { border-bottom: 1px solid #e8ecec; vertical-align: middle; overflow: hidden; }
+  tbody tr { break-inside: avoid; }
+  footer { margin-top: .5rem; font-size: .62rem; color: #888; border-top: 1px solid #ddd; padding-top: .3rem; }
+</style>
+</head><body>
+<header>
+  <p class="brand">Agrupamento de Contratos · ANS</p>
+  <h1>POOL DE RISCO 2026—2027</h1>
+  <p class="sub">Operadoras de Saúde Suplementar &mdash; ${data.length} operadoras exibidas</p>
+</header>
+<table>
+  <colgroup><col class="r"><col class="o"><col class="m"><col class="b"><col class="p"><col class="p2"><col class="ac"><col class="me"></colgroup>
+  <thead><tr>
+    <th class="r">#</th><th>Operadora</th><th>Modalidade</th>
+    <th class="num">Beneficiários</th><th>Pool 26/27</th>
+    <th>Pool 25/26</th><th>Acumulado</th><th>Média</th>
+  </tr></thead>
+  <tbody>${rows}</tbody>
+</table>
+<footer>Pool de Risco 2026—2027 · Gerado em: ${now}</footer>
+</body></html>`;
+    };
+
+    document.getElementById('btn-pdf').addEventListener('click', () => {
+      const data = getFiltered();
+      const html = buildPrintHTML(data);
+      const win = window.open('', '_blank', 'width=1280,height=900');
+      if (!win) {
+        alert('Permita popups nesta página para exportar o PDF.');
+        return;
+      }
+      win.document.write(html);
+      win.document.close();
+      win.focus();
+      // Aguarda recursos (logos) carregarem antes de disparar o print
+      win.addEventListener('load', () => win.print());
+    });
+
+    /* ─── Init ───────────────────────────────────────────────── */
     render();
   </script>
 </body>
