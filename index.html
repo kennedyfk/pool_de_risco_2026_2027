@@ -1170,7 +1170,7 @@
       <h1 class="header__title">POOL DE RISCO 2026—2027</h1>
       <p class="header__subtitle">Operadoras de Saúde Suplementar — Beneficiários ativos em fev/2026 </p>
       <p class="header__author"><span style="display:inline-block; margin-left:8px; opacity:0.8;">Atualizado em: <strong
-            style="color: var(--color-brand); font-weight: 700;">25/04/2026 - 10:08</strong></span></p>
+            style="color: var(--color-brand); font-weight: 700;">26/04/2026 - 22:16</strong></span></p>
       <p class="header__author"><a href="https://www.linkedin.com/in/kennedyfreire/" target="_blank" rel="noopener"><svg
             xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path
@@ -1803,6 +1803,8 @@
 
     /* ─── Exportar PDF — janela limpa dedicada ──────────────── */
     const buildPrintHTML = (data) => {
+      // URL base absoluta para resolver logos corretamente (funciona com file:// e http://)
+      const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
       const now = new Date().toLocaleString('pt-BR');
       const fmtPct = (v) => v != null ? (v * 100).toFixed(2).replace('.', ',') + '%' : '—';
       const fmtN  = (n) => n.toLocaleString('pt-BR');
@@ -1820,8 +1822,10 @@
         const media = (pool25 != null && pool != null) ? (pool25 + pool) / 2 : null;
         const bc    = modColor[mod] || '#888';
         const bg    = idx % 2 === 1 ? '#f5f8f8' : '#fff';
-        const logoHtml = logo
-          ? `<img src="${logo}" style="height:20px;width:auto;max-width:32px;object-fit:contain;vertical-align:middle;margin-right:4px;border-radius:3px;flex-shrink:0;">`
+        // URL absoluta para a logo — funciona em file:// e http://
+        const logoSrc = logo ? baseUrl + logo : '';
+        const logoHtml = logoSrc
+          ? `<img src="${logoSrc}" style="height:20px;width:auto;max-width:32px;object-fit:contain;vertical-align:middle;margin-right:4px;border-radius:3px;flex-shrink:0;">`
           : '';
         const poolHtml = pool != null
           ? `<div style="display:flex;align-items:center;gap:5px">
@@ -1852,7 +1856,6 @@
 
       return `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="UTF-8">
-<base href="${window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1)}">
 <title>Pool de Risco 2026-2027</title>
 <style>
   @page { size: A4 landscape; margin: 1cm 1.5cm; }
@@ -1905,11 +1908,12 @@
         alert('Permita popups nesta página para exportar o PDF.');
         return;
       }
+      win.document.open();
       win.document.write(html);
       win.document.close();
       win.focus();
-      // Aguarda recursos (logos) carregarem antes de disparar o print
-      win.addEventListener('load', () => win.print());
+      // setTimeout é mais confiável que addEventListener('load') com document.write()
+      setTimeout(() => win.print(), 800);
     });
 
     /* ─── Init ───────────────────────────────────────────────── */
