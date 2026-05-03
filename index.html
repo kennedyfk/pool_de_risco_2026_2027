@@ -86,31 +86,30 @@
       font-family: 'Inter', system-ui, sans-serif;
       color: var(--color-text);
       -webkit-font-smoothing: antialiased;
-      height: 100%;
-      overflow: hidden;
+      min-height: 100%;
     }
 
     .app {
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      width: 100vw;
-      overflow-y: auto;
-      overflow-x: auto;
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
     }
 
     /* ─── Cabeçalho ──────────────────────────────────────────── */
     .header {
       background: linear-gradient(135deg, rgba(42, 107, 110, .06) 0%, rgba(42, 107, 110, 0) 60%), var(--color-bg);
       border-bottom: 1px solid var(--color-border);
-      padding: 2rem 3rem 1.5rem;
+      /* Mobile-first: espaço extra no topo p/ o theme-toggle posicionado absolutamente */
+      padding: 3.5rem 1rem 1.5rem;
       position: relative;
     }
 
     .theme-toggle {
       position: absolute;
-      top: 1.5rem;
-      right: 3rem;
+      top: 0.75rem;
+      right: 0.75rem;
       background: var(--color-surface);
       border: 1.5px solid var(--color-border);
       width: 38px;
@@ -123,6 +122,7 @@
       font-size: 1.15rem;
       color: var(--color-text);
       transition: all 0.2s;
+      z-index: 10;
     }
 
     .theme-toggle:hover {
@@ -353,6 +353,8 @@
       margin: 1.5rem auto .5rem;
       width: 100%;
       max-width: 900px;
+      /* Mobile-first: padding lateral para não colar nas bordas */
+      padding: 0 1rem;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
@@ -360,8 +362,9 @@
 
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
+      /* Mobile-first: coluna única */
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
     }
 
     .kpi-card {
@@ -457,10 +460,11 @@
     .toolbar {
       background: var(--color-bg);
       border-bottom: 1px solid var(--color-border);
-      padding: 1rem 3rem;
+      /* Mobile-first: padding compacto */
+      padding: 0.75rem 1rem;
       display: flex;
       flex-wrap: wrap;
-      gap: .75rem;
+      gap: .6rem;
       align-items: center;
     }
 
@@ -569,7 +573,9 @@
       flex-direction: column;
       gap: 0.2rem;
       padding: 0 0.25rem;
-      width: 440px;
+      /* Mobile-first: largura fluida — sem valor fixo */
+      width: 100%;
+      min-width: 180px;
     }
     .range-slider label {
       font-size: .75rem;
@@ -759,7 +765,8 @@
 
     /* ─── Tabela ─────────────────────────────────────────────── */
     .table-section {
-      padding: 1.5rem 3rem 1.5rem;
+      /* Mobile-first: padding lateral mínimo */
+      padding: 1rem 1rem 1.5rem;
     }
 
     .table-wrap {
@@ -986,7 +993,8 @@
     }
 
     .footer-cta {
-      padding: 3rem 3rem 2rem;
+      /* Mobile-first: padding compacto */
+      padding: 1.5rem 1rem;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -1001,7 +1009,9 @@
 
     .footer-links {
       display: flex;
-      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
     }
 
     .footer-links a {
@@ -1025,42 +1035,117 @@
     }
 
     .footer-bottom {
-      padding: 1.5rem 3rem;
+      /* Mobile-first: coluna única centralizada */
+      padding: 1rem;
       border-top: 1px solid var(--color-stripe);
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
+      text-align: center;
+      gap: 0.5rem;
       font-size: .75rem;
       color: var(--color-faint);
     }
 
-    @media (max-width:768px) {
-
-      .header,
-      .toolbar,
-      .table-section {
-        padding-inline: 1rem;
+    /* ══════════════════════════════════════════════════════════
+       BREAKPOINT TABLET (≥ 640px)
+    ══════════════════════════════════════════════════════════ */
+    @media (min-width: 40rem) {
+      .header {
+        padding: 2.5rem 2rem 1.5rem;
       }
 
-      .footer-cta,
-      .footer-bottom {
-        padding: 1.5rem 1rem;
+      .theme-toggle {
+        top: 1.25rem;
+        right: 2rem;
       }
 
-      .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .toolbar__count {
-        display: none;
+      .summary-panel {
+        padding: 0 1.5rem;
       }
 
       .kpi-grid {
-        grid-template-columns: 1fr;
-        gap: .75rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .toolbar {
+        padding: 0.75rem 2rem;
+        gap: 0.65rem;
+      }
+
+      /* Slider fluido mas limitado em tablet */
+      .range-slider {
+        width: clamp(180px, 35%, 440px);
+      }
+
+      .table-section {
+        padding: 1.25rem 2rem 1.5rem;
+      }
+
+      .footer-cta {
+        padding: 2rem;
+      }
+
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        padding: 1.25rem 2rem;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       BREAKPOINT DESKTOP (≥ 1024px)
+    ══════════════════════════════════════════════════════════ */
+    @media (min-width: 64rem) {
+      .header {
+        padding: 2rem 3rem 1.5rem;
+      }
+
+      .theme-toggle {
+        top: 1.5rem;
+        right: 3rem;
+      }
+
+      .summary-panel {
+        padding: 0;
+      }
+
+      .kpi-grid {
+        gap: 1.25rem;
+      }
+
+      .toolbar {
+        padding: 1rem 3rem;
+        gap: 0.75rem;
+      }
+
+      .range-slider {
+        width: 440px;
+      }
+
+      .table-section {
+        padding: 1.5rem 3rem;
+      }
+
+      .footer-cta {
+        padding: 3rem 3rem 2rem;
+      }
+
+      .footer-bottom {
+        padding: 1.5rem 3rem;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       MODO CARTÃO — tabela empilhada em telas < 768px
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 47.9375rem) {
+
+      .toolbar__count {
+        display: none;
       }
 
       .dist-labels {
@@ -1132,13 +1217,16 @@
         color: var(--color-muted);
         font-size: .75rem;
         text-transform: uppercase;
-        margin-right: 1rem;
+        margin-right: 0.75rem;
         text-align: left;
+        flex-shrink: 0;
+        /* Limita label para não esmagar conteúdo */
+        max-width: 45%;
       }
 
       .op-wrap {
         justify-content: flex-end;
-        width: 65%;
+        max-width: 70%;
         text-align: right;
       }
 
@@ -1148,7 +1236,7 @@
 
       .pool-wrap {
         justify-content: flex-end;
-        width: 60%;
+        max-width: 65%;
       }
     }
 
@@ -1170,7 +1258,7 @@
       <h1 class="header__title">POOL DE RISCO 2026—2027</h1>
       <p class="header__subtitle">Operadoras de Saúde Suplementar — Beneficiários ativos em fev/2026 </p>
       <p class="header__author"><span style="display:inline-block; margin-left:8px; opacity:0.8;">Atualizado em: <strong
-            style="color: var(--color-brand); font-weight: 700;">02/05/2026 - 12:09</strong></span></p>
+            style="color: var(--color-brand); font-weight: 700;">03/05/2026 - 11:38</strong></span></p>
       <p class="header__author"><a href="https://www.linkedin.com/in/kennedyfreire/" target="_blank" rel="noopener"><svg
             xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path
